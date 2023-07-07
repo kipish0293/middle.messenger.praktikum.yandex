@@ -17,7 +17,7 @@ npm run start - запуск в режиме сервера http://localhost:300
 npm run build - скрипт сборки проекта в итоговую директорию dist
 
 ## Ссылка на проект Netlify
-https://helpful-sunshine-2b7c4d.netlify.app
+https://effortless-kashata-acb2aa.netlify.app
 
 ## Как макет для проекта использовал макеты от Яндекс
 https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?type=design&node-id=0-1&mode=design
