@@ -1,4 +1,3 @@
-import "./error500.scss";
 import Handlebars from "handlebars";
 import { changePathName } from "../../utils/changePatrhName";
 import tmpl from "./error500.tmpl";

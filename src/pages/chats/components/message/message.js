@@ -1,4 +1,3 @@
-import "./message.scss";
 import Handlebars from "handlebars";
 import tmpl from "./message.tmpl";
 
