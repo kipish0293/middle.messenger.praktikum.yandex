@@ -1,0 +1,9 @@
+.edit-form__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  & div {
+    width: 50%;
+  }
+}
