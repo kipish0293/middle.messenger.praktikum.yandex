@@ -1,0 +1,22 @@
+.chats_offer {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.chats_offer__chatlist {
+  flex: 1;
+  background-color: #fbfbfb;
+}
+
+.chats_offer__chat {
+  flex: 3;
+  height: inherit;
+}
+
+.chats_chatitem {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+}
