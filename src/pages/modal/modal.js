@@ -7,7 +7,7 @@ export function modal() {
     const template = Handlebars.compile(tmpl);
     const result = template({
         button: button({
-            type: "submit",
+            type: "button",
             id: "accept",
             name: "Применить",
         }),
