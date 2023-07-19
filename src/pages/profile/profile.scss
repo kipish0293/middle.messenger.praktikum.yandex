@@ -26,20 +26,3 @@
     color: red!important
   }
 }
-
-.back-step {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 64px;
-  height: 100vh;
-  background-color: #fbfbfb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  &:hover {
-    background-color: #e8e2e2;
-  }
-}

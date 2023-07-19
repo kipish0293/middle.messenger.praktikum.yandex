@@ -5,7 +5,6 @@ import serializedForm from "../../utils/serializedForm";
 import Block from "../../helpers/block";
 import Input from "../../components/input";
 import Button from "../../components/button";
-import HTTPTransport from "../../helpers/httpTransport";
 import LinkButton from "../../components/linkButton";
 
 function authoriseFormHandler(event: Event) {
@@ -23,16 +22,7 @@ class AuthPage extends Block {
         super("div", props);
     }
 
-    async componentDidMount(): Promise<void> {
-        const url = new URL("https://jsonplaceholder.typicode.com/todos/1")
-        url.searchParams.set('id', 'id_1232')
-        const res = await new HTTPTransport().get(url);
-        console.log(res);
-        // setTimeout(()=> button.setProps({name: "Отправить"}), 5000)
-    }
-
     render() {
-        console.log(this.props)
         return this.compile(tmpl, { button: this.props!.button, inputs: this.props!.inputs, linkButton: this.props!.linkButton });
     }
 }
@@ -42,6 +32,7 @@ const button = new Button({
     id: "auth-submit",
     name: "Авторизоваться",
 });
+
 const inputs = [
     {
         name: "login",
@@ -62,6 +53,7 @@ const inputs = [
         required: "required",
     },
 ].map((inp) => new Input({ ...inp }));
+
 const linkButton = new LinkButton({
     name: "Нет аккаунта?",
     events: {

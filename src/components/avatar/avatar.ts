@@ -7,7 +7,7 @@ export default class Avatar extends Block {
     static sizeSmall: string = "width: 47px; height: 47px;";
     static sizeMedium: string = "width: 130px; height: 130px;";
 
-    constructor(props: AvatarType = { size: "", url: "https://i.stack.imgur.com/WXyZl.jpg", canChangeAvatar: false }) {
+    constructor(props: AvatarType = { size: "", url: "https://i.stack.imgur.com/WXyZl.jpg", canChangeAvatar: false, events: {}}) {
         super("div", props);
     }
 

@@ -4,83 +4,79 @@ import Block from "../../../../helpers/block";
 import Button from "../../../../components/button";
 import Input from "../../../../components/input";
 
+const button = new Button({
+    type: "submit",
+    id: "edit-profile-btn",
+    name: "Сохранить",
+});
+
+const inputs = [
+    {
+        name: "email",
+        label: "Почта",
+        type: "email",
+        placeholder: "Введите почту",
+        value: "",
+        disabled: "",
+        required: "required",
+    },
+    {
+        name: "login",
+        label: "Логин",
+        type: "text",
+        placeholder: "Введите логин",
+        value: "",
+        disabled: "",
+        required: "required",
+    },
+    {
+        name: "first_name",
+        label: "Имя",
+        type: "text",
+        placeholder: "Введите имя",
+        value: "",
+        disabled: "",
+        required: "required",
+    },
+    {
+        name: "second_name",
+        label: "Фамилия",
+        type: "text",
+        placeholder: "Введите фамилию",
+        value: "",
+        disabled: "",
+        required: "required",
+    },
+    {
+        name: "display_name",
+        label: "Имя в чате",
+        type: "text",
+        placeholder: "Введите имя в чате",
+        value: "",
+        disabled: "",
+        required: "required",
+    },
+    {
+        name: "phone",
+        label: "Телефон",
+        type: "tel",
+        placeholder: "+7(000)000-00-00",
+        value: "",
+        disabled: "",
+        required: "required",
+    },
+].map((inp) => new Input({ ...inp }));
+
 export default class EditProfile extends Block {
-    static inputsList = [
-      {
-          name: "email",
-          label: "Почта",
-          type: "email",
-          placeholder: "Введите почту",
-          value: "",
-          disabled: "",
-          required: "required",
-      },
-      {
-          name: "login",
-          label: "Логин",
-          type: "text",
-          placeholder: "Введите логин",
-          value: "",
-          disabled: "",
-          required: "required",
-      },
-      {
-          name: "first_name",
-          label: "Имя",
-          type: "text",
-          placeholder: "Введите имя",
-          value: "",
-          disabled: "",
-          required: "required",
-      },
-      {
-          name: "second_name",
-          label: "Фамилия",
-          type: "text",
-          placeholder: "Введите фамилию",
-          value: "",
-          disabled: "",
-          required: "required",
-      },
-      {
-          name: "display_name",
-          label: "Имя в чате",
-          type: "text",
-          placeholder: "Введите имя в чате",
-          value: "",
-          disabled: "",
-          required: "required",
-      },
-      {
-          name: "phone",
-          label: "Телефон",
-          type: "tel",
-          placeholder: "+7(000)000-00-00",
-          value: "",
-          disabled: "",
-          required: "required",
-      },
-    ]
-
-    userData: any | null = null;
-
     constructor(props: any) {
-        const button = new Button({
-            type: "submit",
-            id: "edit-profile-btn",
-            name: "Сохранить",
-        });
-
-        const inputs = EditProfile.inputsList.map((inp) => new Input({ ...inp }));
-
         super("div", { inputs, button, ...props });
 
-        this.loadUserData()
+        this.loadUserData();
     }
 
     async loadUserData() {
         // логика запроса на сервер
-        const res = await new Promise((res) => {
+        const response: Record<string, any> = await new Promise((res) => {
             setTimeout(() => {
                 res({
                     first_name: "Pavel",
@@ -90,24 +86,24 @@ export default class EditProfile extends Block {
                     email: "pavel-martynov@ya.ru",
                     phone: "79008001234",
                 });
-            }, 2000);
+            }, 1000);
         });
 
-        console.log(res)
-        this.setProps({inputs: EditProfile.inputsList.map((inp) => new Input({ ...inp, value: 'HELLO' }))})
+        inputs.map((inp) =>
+            inp.setProps({
+                ...inp,
+                value: response[inp.props.name],
+                disabled: this.props.disabledInput,
+            })
+        );
     }
 
     componentDidUpdate(): boolean {
-      console.log('did update')
-      return true
-    }
-
-    componentDidMount(): void {
-      console.log('did mount')
+        inputs.map((inp) => inp.setProps({ ...inp, disabled: this.props.disabledInput }));
+        return true;
     }
 
     render() {
-        console.log('render', this.props)
         return this.compile(tmpl, { ...this.props });
     }
 }

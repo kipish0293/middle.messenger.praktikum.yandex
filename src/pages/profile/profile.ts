@@ -7,8 +7,9 @@ import Block from "../../helpers/block";
 import Button from "../../components/button";
 import LinkButton from "../../components/linkButton";
 import EditProfile from "./components/editProfile";
-import serializeForm from '../../utils/serializedForm';
+import serializeForm from "../../utils/serializedForm";
 import EditPassword from "./components/editPassword";
+import BackStep from "./components/backStep";
 
 function saveUserData(event: Event) {
     event.preventDefault();
@@ -17,24 +18,31 @@ function saveUserData(event: Event) {
     // editDataMode - завязать логику запроса на сервер по этому флагу
     // логика обновления данных с сервера
     profile.setProps({ isUserDataForm: true, editMode: false });
-    editDataForm.setProps({ editMode: false });
+    editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
+}
+
+function changeAvatar() {
+    const modal = document.querySelector("#modal");
+    const modalOverlay = document.querySelector("#modal-overlay");
+    modal?.classList.toggle("open");
+    modalOverlay?.classList.toggle("open");
 }
 
 const editDataForm = new EditProfile({
+    disabledInput: "disabled",
     events: {
         submit: (event: Event) => {
             event.preventDefault();
-            saveUserData(event)
+            saveUserData(event);
         },
     },
 });
-
 
 const editPassForm = new EditPassword({
     events: {
         submit: (event: Event) => {
             event.preventDefault();
-            saveUserData(event)
+            saveUserData(event);
         },
     },
 });
@@ -44,7 +52,7 @@ const changeUserData = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            editDataForm.setProps({ editMode: true });
+            editDataForm.setProps({ editMode: true, disabledInput: null });
             profile.setProps({ isUserDataForm: true, editMode: true });
         },
     },
@@ -55,7 +63,7 @@ const changeUserPass = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            profile.setProps({ isUserDataForm: false });
+            profile.setProps({ isUserDataForm: false, editMode: true, disabledInput: "disabled" });
         },
     },
 });
@@ -66,7 +74,7 @@ const logout = new LinkButton({
         click: (event: Event): void => {
             event.preventDefault();
             localStorage.removeItem("auth");
-            changePathName('')
+            changePathName("");
         },
     },
 });
@@ -75,6 +83,11 @@ const userAvatar = new Avatar({
     size: "medium",
     url: "https://i.stack.imgur.com/WXyZl.jpg",
     canChangeAvatar: true,
+    events: {
+        click: () => {
+            changeAvatar();
+        },
+    },
 });
 
 const modal = new Modal({
@@ -82,7 +95,23 @@ const modal = new Modal({
         type: "button",
         id: "accept",
         name: "Применить",
+        events: {
+            click: () => {
+                changeAvatar();
+            },
+        },
     }),
+});
+
+const backStep = new BackStep({
+    title: "Назад к списку чатов",
+    events: {
+        click: () => {
+            profile.setProps({ isUserDataForm: true, editMode: false });
+            editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
+            changePathName("chats");
+        },
+    },
 });
 
 class Profile extends Block {
@@ -98,21 +127,14 @@ class Profile extends Block {
 const profile = new Profile({
     isUserDataForm: true,
     editMode: false,
-    backButtonTitle: "Назад к списку чатов",
     userAvatar,
     modal,
     editDataForm,
     editPassForm,
     changeUserData,
     changeUserPass,
+    backStep,
     logout,
 });
 
 export default profile;
-
-// const backStep = document.querySelector('#back-step');
-// if (backStep !== null) {
-//   backStep.addEventListener('click', () => {
-//     editMode ? changeEditMode(true, false) : changePathName('chats');
-//   });
-// }

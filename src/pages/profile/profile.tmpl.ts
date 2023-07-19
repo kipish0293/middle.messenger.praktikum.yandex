@@ -1,10 +1,6 @@
 export default `
     <div>
-        <div class="back-step" id="back-step" title="{{backButtonTitle}}">
-            <span class="material-icons">
-                arrow_back
-            </span>
-        </div>
+        {{{backStep}}}
         <div class="form_offer">
             <div class="profile_form shadow-disable">
                 <div class="profile_form__avatar">

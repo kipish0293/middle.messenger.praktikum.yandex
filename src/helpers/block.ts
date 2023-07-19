@@ -29,7 +29,7 @@ class Block {
 
         const { children, propses } = this._getChildren(propsAndChildren);
 
-        this.children = children;
+        this.children = this._makePropsProxy({...children});
 
         this._id = makeUUID();
 
@@ -183,8 +183,13 @@ class Block {
         if (!nextProps) {
             return;
         }
+
+        const {children, propses} = this._getChildren(nextProps)
+        if(Object.values(children).length) {
+            Object.assign(this.children, children)
+        }
         //Объединяю текущие пропсы с новыми
-        Object.assign(this.props!, nextProps);
+        Object.assign(this.props!, propses);
     }
 
     get element() {
@@ -198,8 +203,6 @@ class Block {
         if (this._element && block !== undefined) {
             this._element.innerHTML = ""; // удаляем предыдущее содержимое
             this._element.appendChild(block);
-            console.log(this._element)
-            console.log(block)
         }
         this._addEvents();
     }
