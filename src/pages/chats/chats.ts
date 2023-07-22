@@ -8,6 +8,7 @@ import Block from "../../helpers/block";
 import { changePathName } from "../../utils/changePatrhName";
 import Search from "../../components/search/search";
 import ChatFooter from "./components/chatFooter/chatFooter";
+import serializeForm from "../../utils/serializedForm";
 
 class ChatsPage extends Block {
     constructor(props: any) {
@@ -104,12 +105,10 @@ const chatComponent = new Chat({
                     console.log(inputValue);
                 }
             },
-            keyup: (event: Event) => {
-                if (event) {
-                    const inputElement = event.target as HTMLInputElement;
-                    const inputValue = inputElement.value;
-                    console.log(inputValue);
-                }
+            submit: (event: Event) => {
+                event.preventDefault();
+                const result = serializeForm(event.target)
+                console.log(result)
             },
         },
         class: "chat-footer"

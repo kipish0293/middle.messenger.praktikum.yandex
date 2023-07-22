@@ -87,7 +87,6 @@ class Block {
 
     compile(template: string, props: any) {
         const propsAndStubs = { ...props };
-        console.log('propsAndStubs', propsAndStubs)
 
         Object.entries(this.children).forEach(([key, child]) => {
             if (Array.isArray(child)) {
@@ -189,8 +188,8 @@ class Block {
             return;
         }
 
-        this._setUpdate = false
-        const oldValue = {...this.props}
+        this._setUpdate = false;
+        const oldValue = { ...this.props };
 
         const { children, propses } = this._getChildren(nextProps);
 
@@ -202,9 +201,9 @@ class Block {
             Object.assign(this.props, propses);
         }
 
-        if(this._setUpdate) {
-            this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldValue, this.props)
-            this._setUpdate = false
+        if (this._setUpdate) {
+            this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldValue, this.props);
+            this._setUpdate = false;
         }
     }
 
@@ -219,9 +218,9 @@ class Block {
         if (this._element && block !== undefined) {
             this._element.innerHTML = ""; // удаляем предыдущее содержимое
             this._element.appendChild(block);
+            this.setAttibutes(this._element);
         }
         this._addEvents();
-        // this._setAttributes()
     }
 
     render() {}
@@ -238,15 +237,21 @@ class Block {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target, prop, value) {
-                if(target[prop] !== value) {
-                    const oldProps = {...target}
+                if (target[prop] !== value) {
+                    const oldProps = { ...target };
                     target[prop] = value;
                     self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
                 }
                 return true;
             },
-            deleteProperty() {
-                throw new Error("Нет доступа");
+            deleteProperty(target, prop) {
+                const oldProps = { ...target };
+                delete target[prop];
+                if (self.element) {
+                    self._removeAttributes(self.element, prop as string);
+                }
+                self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+                return true;
             },
         });
     }
@@ -255,6 +260,13 @@ class Block {
         // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
         const elem = document.createElement(tagName);
         //В свободное время доработаю эту реализацию
+        if (this._id) {
+            this._setAttributes(elem);
+        }
+        return elem;
+    }
+
+    _setAttributes(elem: HTMLElement) {
         enum Attr {
             name = "name",
             value = "value",
@@ -268,6 +280,7 @@ class Block {
             checked = "checked",
             placeholder = "placeholder",
             type = "type",
+            required = "required"
         }
         if (this._id) {
             elem.setAttribute("data-id", this._id);
@@ -277,17 +290,17 @@ class Block {
                 }
             });
         }
-        return elem;
     }
 
-    //временный метод, дальше будет реализация из _createDocumentElement с циклом и без использования шаблонов
-    // _setAttributes() {
-    //     const {attr = {}} = this.props
+    _removeAttributes(elem: HTMLElement, attribute: string) {
+        elem.removeAttribute(attribute);
+    }
 
-    //     Object.entries(attr).forEach(([key, value]: [string, any]): void => {
-    //         this._element!.setAttribute(key, value)
-    //     })
-    // }
+    setAttibutes(elem: HTMLElement) {
+        if (elem) {
+            this._setAttributes(elem);
+        }
+    }
 
     show() {
         this.getContent()!.style.display = "block";
