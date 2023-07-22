@@ -1,9 +1,10 @@
-import tmpl from "./chatItem.tmpl";
 import Block from "../../../../helpers/block";
+import "./chatFooter.scss";
+import tmpl from "./chatFooter.tmpl";
 
-export default class ChatItem extends Block {
+export default class ChatFooter extends Block {
     constructor(props: any) {
-        super("li", props);
+        super("form", props);
     }
 
     render() {

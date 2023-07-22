@@ -3,6 +3,8 @@ import tmpl from "./editProfile.tmpl";
 import Block from "../../../../helpers/block";
 import Button from "../../../../components/button";
 import Input from "../../../../components/input";
+import InputTemplate from "../../../../components/inputTemplate";
+import InputLabel from "../../../../components/inputLabel";
 
 const button = new Button({
     type: "submit",
@@ -10,100 +12,111 @@ const button = new Button({
     name: "Сохранить",
 });
 
-const inputs = [
-    {
-        name: "email",
-        label: "Почта",
-        type: "email",
-        placeholder: "Введите почту",
-        value: "",
-        disabled: "",
-        required: "required",
-    },
-    {
-        name: "login",
-        label: "Логин",
-        type: "text",
-        placeholder: "Введите логин",
-        value: "",
-        disabled: "",
-        required: "required",
-    },
-    {
-        name: "first_name",
-        label: "Имя",
-        type: "text",
-        placeholder: "Введите имя",
-        value: "",
-        disabled: "",
-        required: "required",
-    },
-    {
-        name: "second_name",
-        label: "Фамилия",
-        type: "text",
-        placeholder: "Введите фамилию",
-        value: "",
-        disabled: "",
-        required: "required",
-    },
-    {
-        name: "display_name",
-        label: "Имя в чате",
-        type: "text",
-        placeholder: "Введите имя в чате",
-        value: "",
-        disabled: "",
-        required: "required",
-    },
-    {
-        name: "phone",
-        label: "Телефон",
-        type: "tel",
-        placeholder: "+7(000)000-00-00",
-        value: "",
-        disabled: "",
-        required: "required",
-    },
-].map((inp) => new Input({ ...inp }));
+const inputTemplate = [
+    new InputTemplate({
+        input: new Input({
+            name: "email",
+            type: "email",
+            placeholder: "Введите почту",
+            required: "required",
+            disabled: "disabled",
+            events: {
+                blur: (event: Event) => {
+                    const inputElement = event.target as HTMLInputElement;
+                    const inputValue = inputElement.value;
+                    console.log(inputValue);
+                },
+            },
+            class: "text-field__input",
+        }),
+        label: new InputLabel({
+            name: "email",
+            label: "Почта",
+        }),
+        class: "text-field",
+    }),
+];
 
 export default class EditProfile extends Block {
     constructor(props: any) {
-        super("div", { inputs, button, ...props });
-
-        this.loadUserData();
+        super("form", { inputTemplate, button, userData: null, ...props });
     }
 
-    async loadUserData() {
-        // логика запроса на сервер
-        const response: Record<string, any> = await new Promise((res) => {
-            setTimeout(() => {
-                res({
-                    first_name: "Pavel",
-                    second_name: "Martynov",
-                    display_name: "CowBoy bibop",
-                    login: "123456",
-                    email: "pavel-martynov@ya.ru",
-                    phone: "79008001234",
-                });
-            }, 1000);
-        });
+    componentDidUpdate(oldProps: any, newProps: any): boolean {
+        // inputTemplate.map((templ) => {
+        //     const input = templ.children.input as Block;
+        //     input.setProps({ ...templ, disabled: this.props.disabledInput, value: "TEST VALUE" });
+        // });
 
-        inputs.map((inp) =>
-            inp.setProps({
-                ...inp,
-                value: response[inp.props.name],
-                disabled: this.props.disabledInput,
-            })
-        );
-    }
-
-    componentDidUpdate(): boolean {
-        inputs.map((inp) => inp.setProps({ ...inp, disabled: this.props.disabledInput }));
-        return true;
+        return super.componentDidUpdate(oldProps, newProps);
     }
 
     render() {
         return this.compile(tmpl, { ...this.props });
     }
 }
+
+// const inputTemplate = [
+//     {
+//         name: "email",
+//         label: "Почта",
+//         type: "email",
+//         placeholder: "Введите почту",
+//         required: "required",
+//     },
+//     {
+//         name: "login",
+//         label: "Логин",
+//         type: "text",
+//         placeholder: "Введите логин",
+//         required: "required",
+//     },
+//     {
+//         name: "first_name",
+//         label: "Имя",
+//         type: "text",
+//         placeholder: "Введите имя",
+//         required: "required",
+//     },
+//     {
+//         name: "second_name",
+//         label: "Фамилия",
+//         type: "text",
+//         placeholder: "Введите фамилию",
+//         required: "required",
+//     },
+//     {
+//         name: "display_name",
+//         label: "Имя в чате",
+//         type: "text",
+//         placeholder: "Введите имя в чате",
+//         required: "required",
+//     },
+//     {
+//         name: "phone",
+//         label: "Телефон",
+//         type: "tel",
+//         placeholder: "+7(000)000-00-00",
+//         required: "required",
+//     },
+// ].map(
+//     (inp) =>
+//         new InputTemplate({
+//             input: new Input({
+//                 ...inp,
+//                 events: {
+//                     blur: (event: Event) => {
+//                         const inputElement = event.target as HTMLInputElement;
+//                         const inputValue = inputElement.value;
+//                         console.log(inputValue);
+//                     },
+//                 },
+//                 class: "text-field__input",
+//             }),
+//             label: new InputLabel({
+//                 name: inp.name,
+//                 label: inp.label,
+//             }),
+//             class: "text-field",
+//         })
+// );

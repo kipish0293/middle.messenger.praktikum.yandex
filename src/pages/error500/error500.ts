@@ -25,5 +25,6 @@ const linkButton = new LinkButton({
 });
 
 export default new Error500({
-  linkButton
+  linkButton,
+  class: "screen-content-center"
 });

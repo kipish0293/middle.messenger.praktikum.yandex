@@ -36,6 +36,8 @@ const editDataForm = new EditProfile({
             saveUserData(event);
         },
     },
+    id: "profile-data-form",
+    class: "edit-form"
 });
 
 const editPassForm = new EditPassword({
@@ -45,6 +47,7 @@ const editPassForm = new EditPassword({
             saveUserData(event);
         },
     },
+    class: "profile-pass-form"
 });
 
 const changeUserData = new LinkButton({
@@ -112,11 +115,33 @@ const backStep = new BackStep({
             changePathName("chats");
         },
     },
+    class: "back-step",
+    id: "back-step",
 });
 
 class Profile extends Block {
     constructor(props: any) {
-        super("div", props);
+        super("div", {userData: null, ...props});
+        this.loadUserData();
+    }
+
+    async loadUserData() {
+        // логика запроса на сервер
+        const userData: Record<string, any> = await new Promise((res) => {
+            setTimeout(() => {
+                res({
+                    first_name: "Pavel",
+                    second_name: "Martynov",
+                    display_name: "CowBoy bibop",
+                    login: "123456",
+                    email: "pavel-martynov@ya.ru",
+                    phone: "79008001234",
+                });
+            }, 1000);
+        });
+
+        this.setProps({userData: userData})
+        editDataForm.setProps({userData: userData})
     }
 
     render() {

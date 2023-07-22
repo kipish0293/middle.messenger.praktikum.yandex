@@ -1,26 +1,12 @@
-import Handlebars from 'handlebars';
-import tmpl from './message.tmpl';
+import "./message.scss";
+import Block from "../../../../helpers/block";
+import tmpl from "./message.tmpl";
+export default class Message extends Block {
+    constructor(props: any) {
+        super("div", props);
+    }
 
-type Message = {
-    id: number,
-    name: string,
-    text: string,
-    date: string
+    render() {
+        return this.compile(tmpl, { ...this.props });
+    }
 }
-
-function message(
-  {
-    id,
-    name,
-    text,
-    date,
-  } : Message,
-) {
-  const template = Handlebars.compile(tmpl);
-  const result = template({
-    id, name, text, date,
-  });
-  return result;
-}
-
-export default message;

@@ -19,6 +19,7 @@ class Block {
     eventBus: EventBus;
     props: Record<string | symbol, any>;
     children: Record<string, Block> | Record<string, Block[]> = {};
+    _setUpdate: boolean = false;
 
     constructor(tagName: string = "div", propsAndChildren: Record<string | symbol, any> = {}) {
         const eventBus = new EventBus();
@@ -29,10 +30,9 @@ class Block {
 
         const { children, propses } = this._getChildren(propsAndChildren);
 
-        this.children = this._makePropsProxy({...children});
-
         this._id = makeUUID();
 
+        this.children = this._makePropsProxy({ ...children });
         this.props = this._makePropsProxy({ ...propses, __id: this._id });
 
         this.eventBus = eventBus;
@@ -87,6 +87,7 @@ class Block {
 
     compile(template: string, props: any) {
         const propsAndStubs = { ...props };
+        console.log('propsAndStubs', propsAndStubs)
 
         Object.entries(this.children).forEach(([key, child]) => {
             if (Array.isArray(child)) {
@@ -117,6 +118,7 @@ class Block {
                     }
                 });
             }
+
             const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
             if (stub) {
                 stub.replaceWith(child.getContent()!);
@@ -166,8 +168,8 @@ class Block {
         this.eventBus.emit(Block.EVENTS.FLOW_CDM);
     }
 
-    _componentDidUpdate() {
-        const response = this.componentDidUpdate();
+    _componentDidUpdate(oldProps: any, newProps: any) {
+        const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
             return;
         }
@@ -175,8 +177,11 @@ class Block {
     }
 
     // Может переопределять пользователь, необязательно трогать
-    componentDidUpdate() {
-        return true;
+    componentDidUpdate(oldProps: any, newProps: any) {
+        if (oldProps !== newProps) {
+            return true;
+        }
+        return false;
     }
 
     setProps(nextProps: unknown) {
@@ -184,12 +189,23 @@ class Block {
             return;
         }
 
-        const {children, propses} = this._getChildren(nextProps)
-        if(Object.values(children).length) {
-            Object.assign(this.children, children)
+        this._setUpdate = false
+        const oldValue = {...this.props}
+
+        const { children, propses } = this._getChildren(nextProps);
+
+        if (Object.values(children).length) {
+            Object.assign(this.children, children);
         }
-        //Объединяю текущие пропсы с новыми
-        Object.assign(this.props!, propses);
+
+        if (Object.values(propses).length) {
+            Object.assign(this.props, propses);
+        }
+
+        if(this._setUpdate) {
+            this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldValue, this.props)
+            this._setUpdate = false
+        }
     }
 
     get element() {
@@ -205,6 +221,7 @@ class Block {
             this._element.appendChild(block);
         }
         this._addEvents();
+        // this._setAttributes()
     }
 
     render() {}
@@ -221,8 +238,11 @@ class Block {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target, prop, value) {
-                target[prop] = value;
-                self.eventBus.emit(Block.EVENTS.FLOW_CDU, { ...target });
+                if(target[prop] !== value) {
+                    const oldProps = {...target}
+                    target[prop] = value;
+                    self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+                }
                 return true;
             },
             deleteProperty() {
@@ -234,11 +254,40 @@ class Block {
     _createDocumentElement(tagName: string) {
         // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
         const elem = document.createElement(tagName);
+        //В свободное время доработаю эту реализацию
+        enum Attr {
+            name = "name",
+            value = "value",
+            class = "class",
+            id = "id",
+            src = "src",
+            href = "href",
+            alt = "alt",
+            title = "title",
+            disabled = "disabled",
+            checked = "checked",
+            placeholder = "placeholder",
+            type = "type",
+        }
         if (this._id) {
             elem.setAttribute("data-id", this._id);
+            Object.entries(this.props).forEach(([key, value]: [string, any]) => {
+                if (key in Attr) {
+                    elem.setAttribute(key, value);
+                }
+            });
         }
         return elem;
     }
+
+    //временный метод, дальше будет реализация из _createDocumentElement с циклом и без использования шаблонов
+    // _setAttributes() {
+    //     const {attr = {}} = this.props
+
+    //     Object.entries(attr).forEach(([key, value]: [string, any]): void => {
+    //         this._element!.setAttribute(key, value)
+    //     })
+    // }
 
     show() {
         this.getContent()!.style.display = "block";

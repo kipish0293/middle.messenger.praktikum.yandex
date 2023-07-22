@@ -6,6 +6,8 @@ import Input from "../../components/input";
 import serializedForm from "../../utils/serializedForm";
 import Block from "../../helpers/block";
 import LinkButton from "../../components/linkButton";
+import inputTemplate from "../../components/inputTemplate";
+import InputLabel from "../../components/inputLabel";
 
 function registrationFormHandler(event: Event) {
     event.preventDefault();
@@ -44,7 +46,6 @@ const inputs = [
         type: "email",
         placeholder: "Введите почту",
         value: "",
-        disabled: "",
         required: "required",
     },
     {
@@ -53,7 +54,6 @@ const inputs = [
         type: "text",
         placeholder: "Введите логин",
         value: "",
-        disabled: "",
         required: "required",
     },
     {
@@ -62,7 +62,6 @@ const inputs = [
         type: "text",
         placeholder: "Введите имя",
         value: "",
-        disabled: "",
         required: "required",
     },
     {
@@ -71,7 +70,6 @@ const inputs = [
         type: "text",
         placeholder: "Введите фамилию",
         value: "",
-        disabled: "",
         required: "required",
     },
     {
@@ -80,7 +78,6 @@ const inputs = [
         type: "tel",
         placeholder: "+7(000)000-00-00",
         value: "",
-        disabled: "",
         required: "required",
     },
     {
@@ -89,7 +86,6 @@ const inputs = [
         type: "password",
         placeholder: "Введите пароль",
         value: "",
-        disabled: "",
         required: "required",
     },
     {
@@ -98,10 +94,27 @@ const inputs = [
         type: "password",
         placeholder: "Введите пароль еще раз",
         value: "",
-        disabled: "",
         required: "required",
     },
-].map((inp) => new Input({ ...inp }));
+].map((inp) => new inputTemplate({
+    input: new Input({
+        ...inp,
+        events: {
+            blur: (event: Event) => {
+                const inputElement = event.target as HTMLInputElement;
+                const inputValue = inputElement.value;
+                console.log(inputValue)
+            }
+        },
+        class: "text-field__input"
+    }),
+    label: new InputLabel({
+        name: inp.name,
+        label: inp.label
+    }),
+    class: "text-field"
+}));
+
 const linkButton = new LinkButton({
     name: "Войти",
     events: {
@@ -121,4 +134,5 @@ export default new RegPage({
             registrationFormHandler(event);
         },
     },
+    class: "form_offer"
 });
