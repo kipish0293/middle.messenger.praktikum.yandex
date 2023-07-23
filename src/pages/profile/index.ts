@@ -1,3 +1,3 @@
-import page from './profile';
+import page from "./profile";
 
 export default page;

@@ -1,6 +1,6 @@
-import { changePathName } from './changePatrhName';
+import { changePathName } from "./changePatrhName";
 
 export default function () {
-  localStorage.removeItem('auth');
-  changePathName('');
+    localStorage.removeItem("auth");
+    changePathName("");
 }

@@ -280,7 +280,7 @@ class Block {
             checked = "checked",
             placeholder = "placeholder",
             type = "type",
-            required = "required"
+            required = "required",
         }
         if (this._id) {
             elem.setAttribute("data-id", this._id);

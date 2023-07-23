@@ -1,3 +1,3 @@
-import component from './message';
+import component from "./message";
 
 export default component;

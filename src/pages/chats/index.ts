@@ -1,3 +1,3 @@
-import page from './chats';
+import page from "./chats";
 
 export default page;

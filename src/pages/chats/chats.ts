@@ -68,7 +68,7 @@ const chatsList = [
                 },
             },
             class: "chats_chatitem",
-            id: `chat_item_${it.id}`
+            id: `chat_item_${it.id}`,
         })
 );
 
@@ -107,11 +107,11 @@ const chatComponent = new Chat({
             },
             submit: (event: Event) => {
                 event.preventDefault();
-                const result = serializeForm(event.target)
-                console.log(result)
+                const result = serializeForm(event.target);
+                console.log(result);
             },
         },
-        class: "chat-footer"
+        class: "chat-footer",
     }),
 });
 
@@ -121,5 +121,5 @@ export default new ChatsPage({
     search,
     chatComponent,
     userId: 12345,
-    class: "chats_offer"
+    class: "chats_offer",
 });

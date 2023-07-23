@@ -1,3 +1,3 @@
-import { baseRouter } from './pages';
+import { baseRouter } from "./pages";
 
 baseRouter();

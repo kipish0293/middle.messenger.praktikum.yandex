@@ -1,3 +1,3 @@
-import inputTemplate from './inputTemplate';
+import inputTemplate from "./inputTemplate";
 
 export default inputTemplate;

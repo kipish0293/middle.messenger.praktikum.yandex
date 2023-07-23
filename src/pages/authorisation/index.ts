@@ -1,3 +1,3 @@
-import page from './authorisation';
+import page from "./authorisation";
 
 export default page;

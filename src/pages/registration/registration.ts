@@ -45,7 +45,6 @@ const inputs = [
         label: "Почта",
         type: "email",
         placeholder: "Введите почту",
-        value: "",
         required: "required",
     },
     {
@@ -53,7 +52,6 @@ const inputs = [
         label: "Логин",
         type: "text",
         placeholder: "Введите логин",
-        value: "",
         required: "required",
     },
     {
@@ -61,7 +59,6 @@ const inputs = [
         label: "Имя",
         type: "text",
         placeholder: "Введите имя",
-        value: "",
         required: "required",
     },
     {
@@ -69,7 +66,6 @@ const inputs = [
         label: "Фамилия",
         type: "text",
         placeholder: "Введите фамилию",
-        value: "",
         required: "required",
     },
     {
@@ -77,7 +73,6 @@ const inputs = [
         label: "Телефон",
         type: "tel",
         placeholder: "+7(000)000-00-00",
-        value: "",
         required: "required",
     },
     {
@@ -85,7 +80,6 @@ const inputs = [
         label: "Пароль",
         type: "password",
         placeholder: "Введите пароль",
-        value: "",
         required: "required",
     },
     {
@@ -93,27 +87,29 @@ const inputs = [
         label: "Пароль (еще раз)",
         type: "password",
         placeholder: "Введите пароль еще раз",
-        value: "",
         required: "required",
     },
-].map((inp) => new inputTemplate({
-    input: new Input({
-        ...inp,
-        events: {
-            blur: (event: Event) => {
-                const inputElement = event.target as HTMLInputElement;
-                const inputValue = inputElement.value;
-                console.log(inputValue)
-            }
-        },
-        class: "text-field__input"
-    }),
-    label: new InputLabel({
-        name: inp.name,
-        label: inp.label
-    }),
-    class: "text-field"
-}));
+].map(
+    (inp) =>
+        new inputTemplate({
+            input: new Input({
+                ...inp,
+                events: {
+                    blur: (event: Event) => {
+                        const inputElement = event.target as HTMLInputElement;
+                        const inputValue = inputElement.value;
+                        console.log(inputValue);
+                    },
+                },
+                class: "text-field__input",
+            }),
+            label: new InputLabel({
+                name: inp.name,
+                label: inp.label,
+            }),
+            class: "text-field",
+        })
+);
 
 const linkButton = new LinkButton({
     name: "Войти",
@@ -134,5 +130,5 @@ export default new RegPage({
             registrationFormHandler(event);
         },
     },
-    class: "form_offer"
+    class: "form_offer",
 });

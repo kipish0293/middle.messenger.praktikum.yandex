@@ -1,3 +1,3 @@
-import input from './chatFooter';
+import input from "./chatFooter";
 
 export default input;

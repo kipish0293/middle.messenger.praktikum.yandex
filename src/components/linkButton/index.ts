@@ -1,3 +1,3 @@
-import button from './linkButton';
+import button from "./linkButton";
 
 export default button;

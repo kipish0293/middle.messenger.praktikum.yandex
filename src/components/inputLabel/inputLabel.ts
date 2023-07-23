@@ -1,5 +1,5 @@
 import "./inputLabel.scss";
-import tmpl from './inputLabel.tmpl'
+import tmpl from "./inputLabel.tmpl";
 import Block from "../../helpers/block";
 
 export default class InputLabel extends Block {

@@ -18,7 +18,6 @@ const inputs = [
         label: "Новый пароль",
         type: "password",
         placeholder: "Введите новый пароль",
-        value: "",
         required: "required",
     },
     {
@@ -26,7 +25,6 @@ const inputs = [
         label: "Новый пароль",
         type: "password",
         placeholder: "Введите новый пароль",
-        value: "",
         required: "required",
     },
     {
@@ -34,27 +32,29 @@ const inputs = [
         label: "Повторите новый пароль",
         type: "password",
         placeholder: "Введите новый пароль (еще раз)",
-        value: "",
         required: "required",
     },
-].map((inp) => new inputTemplate({
-    input: new Input({
-        ...inp,
-        events: {
-            blur: (event: Event) => {
-                const inputElement = event.target as HTMLInputElement;
-                const inputValue = inputElement.value;
-                console.log(inputValue)
-            }
-        },
-        class: "text-field__input"
-    }),
-    label: new InputLabel({
-        name: inp.name,
-        label: inp.label
-    }),
-    class: "text-field"
-}));
+].map(
+    (inp) =>
+        new inputTemplate({
+            input: new Input({
+                ...inp,
+                events: {
+                    blur: (event: Event) => {
+                        const inputElement = event.target as HTMLInputElement;
+                        const inputValue = inputElement.value;
+                        console.log(inputValue);
+                    },
+                },
+                class: "text-field__input",
+            }),
+            label: new InputLabel({
+                name: inp.name,
+                label: inp.label,
+            }),
+            class: "text-field",
+        })
+);
 
 export default class EditPassword extends Block {
     constructor(props: any) {

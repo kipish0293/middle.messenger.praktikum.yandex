@@ -1,7 +1,7 @@
 type VoidSubscriber = (oldProps?: unknown, newProps?: unknown) => void;
 
 class EventBus {
-    listeners: Record<string, VoidSubscriber[]>
+    listeners: Record<string, VoidSubscriber[]>;
     constructor() {
         this.listeners = {};
     }
@@ -33,4 +33,4 @@ class EventBus {
     }
 }
 
-export default EventBus
+export default EventBus;

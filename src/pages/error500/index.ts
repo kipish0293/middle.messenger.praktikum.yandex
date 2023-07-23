@@ -1,3 +1,3 @@
-import page from './error500';
+import page from "./error500";
 
 export default page;

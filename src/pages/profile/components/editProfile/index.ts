@@ -1,3 +1,3 @@
-import component from './editProfile';
+import component from "./editProfile";
 
 export default component;

@@ -68,12 +68,12 @@ export default class Chat extends Block {
     }
 
     componentDidUpdate(oldProps: any, newProps: any): boolean {
-        if(oldProps.chatId !== newProps.chatId) {
-            this.setProps({messages: []})
-            this.loadChat()
-            return false
+        if (oldProps.chatId !== newProps.chatId) {
+            this.setProps({ messages: [] });
+            this.loadChat();
+            return false;
         }
-        return true
+        return true;
     }
 
     async loadChat() {

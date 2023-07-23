@@ -37,7 +37,7 @@ const editDataForm = new EditProfile({
         },
     },
     id: "profile-data-form",
-    class: "edit-form"
+    class: "edit-form",
 });
 
 const editPassForm = new EditPassword({
@@ -47,7 +47,7 @@ const editPassForm = new EditPassword({
             saveUserData(event);
         },
     },
-    class: "profile-pass-form"
+    class: "profile-pass-form",
 });
 
 const changeUserData = new LinkButton({
@@ -121,7 +121,7 @@ const backStep = new BackStep({
 
 class Profile extends Block {
     constructor(props: any) {
-        super("div", {userData: null, ...props});
+        super("div", { userData: null, ...props });
         this.loadUserData();
     }
 
@@ -140,8 +140,8 @@ class Profile extends Block {
             }, 1000);
         });
 
-        this.setProps({userData: userData})
-        editDataForm.setProps({userData: userData})
+        this.setProps({ userData: userData });
+        editDataForm.setProps({ userData: userData });
     }
 
     render() {

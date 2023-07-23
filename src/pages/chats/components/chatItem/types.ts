@@ -1,13 +1,13 @@
-import { AvatarType } from '../../../../components/avatar/types';
+import { AvatarType } from "../../../../components/avatar/types";
 export type ChatItemType = {
-    id: number,
-    chatName: string,
+    id: number;
+    chatName: string;
     lastMessage: {
-        id: number,
-        name: string,
-        text: string,
-        date: Date,
-    },
-    unreadMessageCount: number,
-    chatIcon: AvatarType,
-}
+        id: number;
+        name: string;
+        text: string;
+        date: Date;
+    };
+    unreadMessageCount: number;
+    chatIcon: AvatarType;
+};

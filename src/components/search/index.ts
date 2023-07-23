@@ -1,3 +1,3 @@
-import input from './search';
+import input from "./search";
 
 export default input;

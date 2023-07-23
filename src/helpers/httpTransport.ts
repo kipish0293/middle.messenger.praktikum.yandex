@@ -20,7 +20,7 @@ class HTTPTransport {
         const newURL = new URL(url);
         if (Object.keys(options).length) {
             Object.entries(options).map(([key, value]) => {
-                if(value) {
+                if (value) {
                     newURL.searchParams.set(key, value.toString());
                 }
             });
@@ -52,9 +52,9 @@ class HTTPTransport {
             const xhr = new XMLHttpRequest();
             const isGet = method === METHOD.GET;
 
-            xhr.open(method, url)
+            xhr.open(method, url);
 
-            xhr.responseType = 'json';
+            xhr.responseType = "json";
 
             Object.keys(headers).forEach((key) => {
                 xhr.setRequestHeader(key, headers[key]);

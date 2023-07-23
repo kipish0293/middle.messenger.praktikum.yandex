@@ -1,38 +1,36 @@
 .message__right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-
 .message__left {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: column;
-    text-align: start!important;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  text-align: start !important;
 }
 
 .message__content {
-    max-width: 30vw;
-    text-align: start;
-    margin: 20px;
-    padding: 10px;
-    border-radius: 8px;
+  max-width: 30vw;
+  text-align: start;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .message__right .message__content {
-    background-color: #E4EDFD;
+  background-color: #e4edfd;
 }
 
 .message__left .message__content {
-    background-color: #F8F8F8;
+  background-color: #f8f8f8;
 }
 
 .message__date {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 12px;
-    padding-top: 5px;
-
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  padding-top: 5px;
 }

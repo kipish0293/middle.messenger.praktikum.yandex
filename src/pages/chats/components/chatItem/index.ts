@@ -1,3 +1,3 @@
-import component from './chatItem';
+import component from "./chatItem";
 
 export default component;
