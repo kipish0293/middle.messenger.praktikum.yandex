@@ -16,7 +16,7 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true
   },
   "include": ["src", ".eslintrc.cjs"],
   "exclude": ["node_modules", "build"]
