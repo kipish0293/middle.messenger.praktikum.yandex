@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "start": "node server.js",
     "lint": "eslint . --ext .ts",
-    "stylelint": "stylelint '**/*.scss'"
+    "stylelint": "stylelint '**/*.scss'",
+    "stylelint-fix": "stylelint '**/*.{css,scss}' --fix"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.2",

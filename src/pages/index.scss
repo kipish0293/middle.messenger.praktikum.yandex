@@ -6,10 +6,10 @@
   color: #213547;
   background-color: #fff;
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 *,
@@ -20,14 +20,14 @@
 
 body {
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
   background-color: #fff;
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 }
 
 h1 {
@@ -43,6 +43,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -63,26 +64,33 @@ a:hover {
 .material-icons.md-18 {
   font-size: 18px;
 }
+
 .material-icons.md-24 {
   font-size: 24px;
 }
+
 .material-icons.md-36 {
   font-size: 36px;
 }
+
 .material-icons.md-48 {
   font-size: 48px;
 }
+
 .material-icons.md-dark {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgb(0 0 0 / 54%);
 }
+
 .material-icons.md-dark.md-inactive {
-  color: rgba(0, 0, 0, 0.26);
+  color: rgb(0 0 0 / 26%);
 }
+
 .material-icons.md-light {
-  color: rgba(255, 255, 255, 1);
+  color: rgb(255 255 255 / 100%);
 }
+
 .material-icons.md-light.md-inactive {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgb(255 255 255 / 30%);
 }
 
 .form_offer {
@@ -100,9 +108,7 @@ a:hover {
   max-height: 90%;
   overflow: scroll;
   border-radius: 8px;
-  -webkit-box-shadow: 0px 1px 8px 4px rgba(213, 213, 213, 0.5);
-  -moz-box-shadow: 0px 1px 8px 4px rgba(213, 213, 213, 0.5);
-  box-shadow: 0px 1px 8px 4px rgba(213, 213, 213, 0.5);
+  box-shadow: 0 1px 8px 4px rgb(213 213 213 / 50%);
 }
 
 .form_title {
@@ -111,7 +117,7 @@ a:hover {
 }
 
 .color-red {
-  color: #ff0000 !important;
+  color: #f00 !important;
 }
 
 .shadow-disable {

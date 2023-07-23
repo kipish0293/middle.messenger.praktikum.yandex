@@ -5,9 +5,8 @@
   cursor: pointer;
   overflow: hidden;
   opacity: 1;
+
   .image {
-    width: inherit;
-    height: inherit;
     opacity: 1;
     transition: opacity 124ms linear, transform 124ms linear; /* Плавное изменение прозрачности и увеличения */
     width: 100%;
@@ -18,6 +17,7 @@
 
 .avatar_changable:hover {
   background-color: black;
+
   .image {
     opacity: 0.5; /* Высветляем картинку, но она становится темнее, так как под ней черный фон */
     transform: scale(1.05); /* Увеличение картинки */

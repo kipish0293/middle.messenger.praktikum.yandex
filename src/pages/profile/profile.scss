@@ -3,25 +3,28 @@
   width: 40vw;
   border-radius: 8px;
   padding: 50px 30px;
-  -webkit-box-shadow: 0px 1px 8px 4px rgba(213, 213, 213, 0.5);
-  -moz-box-shadow: 0px 1px 8px 4px rgba(213, 213, 213, 0.5);
-  box-shadow: 0px 1px 8px 4px rgba(213, 213, 213, 0.5);
+  box-shadow: 0 1px 8px 4px rgb(213 213 213 / 50%);
+
   .profile_form__avatar {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .profile_form__firstName {
     text-align: center;
     margin: 20px 0;
   }
+
   .profile_form__footer {
     margin-top: 40px;
   }
+
   .profile_form__item {
     display: block;
     margin-top: 10px;
   }
+
   .profile_form__item_red {
     color: red !important;
   }
