@@ -3,4 +3,28 @@
   align-items: center;
   justify-content: center;
   height: inherit;
+  height: 100vh;
+}
+
+.chat_offer__header-avatar {
+  display: flex;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 10px;
+  align-items: center;
+  height: 8vh;
+  background-color: #fff;
+}
+
+.chat_offer__messages-list {
+  height: 85vh;
+  overflow-y: scroll;
+}
+
+.chat_offer__chat-footer {
+  height: 7vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 5px;
 }
