@@ -1,20 +1,25 @@
 import "./authorisation.scss";
 import tmpl from "./authorisation.tmpl";
 import { changePathName } from "../../utils/changePatrhName";
-import serializedForm from "../../utils/serializedForm";
+import serializeForm from "../../utils/serializeForm";
 import Block from "../../helpers/block";
 import Button from "../../components/button";
 import LinkButton from "../../components/linkButton";
 import InputTemplate from "../../components/inputTemplate";
 import Input from "../../components/input/input";
 import InputLabel from "../../components/inputLabel";
+import { validatorForm, validatorInput } from "../../utils/validators";
 
 function authoriseFormHandler(event: Event) {
     event.preventDefault();
 
-    const result = serializedForm(event.target);
-    console.log(result);
+    const {formData, inputElements} = serializeForm(event.target);
+    const hasError = validatorForm(inputElements)
+    console.log(`HasError: ${hasError}, formData: ${formData}`);
     // Заглушка - авторизация в приложении
+    if(hasError) {
+        return
+    }
     localStorage.setItem("auth", "authorized");
     changePathName("chats");
 }
@@ -64,8 +69,7 @@ const inputs = [
                 events: {
                     blur: (event: Event) => {
                         const inputElement = event.target as HTMLInputElement;
-                        const inputValue = inputElement.value;
-                        console.log(inputValue);
+                        validatorInput(inputElement)
                     },
                 },
                 class: "text-field__input",

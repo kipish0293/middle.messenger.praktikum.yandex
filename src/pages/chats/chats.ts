@@ -8,7 +8,9 @@ import Block from "../../helpers/block";
 import { changePathName } from "../../utils/changePatrhName";
 import Search from "../../components/search/search";
 import ChatFooter from "./components/chatFooter/chatFooter";
-import serializeForm from "../../utils/serializedForm";
+import serializeForm from "../../utils/serializeForm";
+import { validatorForm, validatorInput } from "../../utils/validators";
+import Input from "../../components/input";
 
 class ChatsPage extends Block {
     constructor(props: any) {
@@ -96,22 +98,29 @@ const search = new Search({
 
 const chatComponent = new Chat({
     chatFooter: new ChatFooter({
-        inputName: "message",
-        events: {
-            input: (event: Event) => {
-                if (event) {
+        input: new Input({
+            events: {
+                blur: (event: Event) => {
                     const inputElement = event.target as HTMLInputElement;
-                    const inputValue = inputElement.value;
-                    console.log(inputValue);
-                }
+                    validatorInput(inputElement)
+                },
             },
+            class: "chat-footer__input",
+            name: "message",
+            placeholder: "Сообщение"
+        }),
+        class: "chat-footer",
+        events: {
             submit: (event: Event) => {
                 event.preventDefault();
-                const result = serializeForm(event.target);
-                console.log(result);
+                const {formData, inputElements} = serializeForm(event.target);
+                const hasError = validatorForm(inputElements)
+                console.log(`HasError: ${hasError}, formData: ${formData}`);
+                if(hasError) {
+                    return
+                }
             },
-        },
-        class: "chat-footer",
+        }
     }),
 });
 

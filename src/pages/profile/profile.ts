@@ -7,14 +7,19 @@ import Block from "../../helpers/block";
 import Button from "../../components/button";
 import LinkButton from "../../components/linkButton";
 import EditProfile from "./components/editProfile";
-import serializeForm from "../../utils/serializedForm";
+import serializeForm from "../../utils/serializeForm";
 import EditPassword from "./components/editPassword";
 import BackStep from "./components/backStep";
+import { validatorForm } from "../../utils/validators";
 
 function saveUserData(event: Event) {
     event.preventDefault();
-    const result = serializeForm(event.target);
-    console.log(result);
+    const {formData, inputElements} = serializeForm(event.target);
+    const hasError = validatorForm(inputElements)
+    console.log(`HasError: ${hasError}, formData: ${formData}`);
+    if(hasError) {
+        return
+    }
     // editDataMode - завязать логику запроса на сервер по этому флагу
     // логика обновления данных с сервера
     profile.setProps({ isUserDataForm: true, editMode: false });

@@ -1,10 +1,5 @@
 export default `
-    <input
-        class="chat-footer__input"
-        type="text"
-        placeholder="Сообщение"
-        name="{{inputName}}"
-    />
+    {{{input}}}
     <button type="submit" class="chat-footer__button material-icons">
         east
     </button>

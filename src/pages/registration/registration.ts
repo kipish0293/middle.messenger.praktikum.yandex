@@ -3,17 +3,22 @@ import { changePathName } from "../../utils/changePatrhName";
 import tmpl from "./registration.tmpl";
 import Button from "../../components/button";
 import Input from "../../components/input";
-import serializedForm from "../../utils/serializedForm";
+import serializeForm from "../../utils/serializeForm";
 import Block from "../../helpers/block";
 import LinkButton from "../../components/linkButton";
 import inputTemplate from "../../components/inputTemplate";
 import InputLabel from "../../components/inputLabel";
+import { validatorForm, validatorInput } from "../../utils/validators";
 
 function registrationFormHandler(event: Event) {
     event.preventDefault();
 
-    const result = serializedForm(event.target);
-    console.log(result);
+    const { formData, inputElements } = serializeForm(event.target);
+    const hasError = validatorForm(inputElements);
+    console.log(`HasError: ${hasError}, formData: ${formData}`);
+    if (hasError) {
+        return;
+    }
 
     // Заглушка - регистрации в приложении
     localStorage.setItem("auth", "authorized");
@@ -97,8 +102,7 @@ const inputs = [
                 events: {
                     blur: (event: Event) => {
                         const inputElement = event.target as HTMLInputElement;
-                        const inputValue = inputElement.value;
-                        console.log(inputValue);
+                        validatorInput(inputElement);
                     },
                 },
                 class: "text-field__input",

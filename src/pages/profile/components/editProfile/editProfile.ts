@@ -5,6 +5,7 @@ import Button from "../../../../components/button";
 import Input from "../../../../components/input";
 import InputTemplate from "../../../../components/inputTemplate";
 import InputLabel from "../../../../components/inputLabel";
+import { validatorInput } from "../../../../utils/validators";
 
 const button = new Button({
     type: "submit",
@@ -63,8 +64,7 @@ const inputTemplate = [
                 events: {
                     blur: (event: Event) => {
                         const inputElement = event.target as HTMLInputElement;
-                        const inputValue = inputElement.value;
-                        console.log(inputValue);
+                        validatorInput(inputElement)
                     },
                 },
                 class: "text-field__input",
