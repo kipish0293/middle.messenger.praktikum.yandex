@@ -15,7 +15,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": true,
-    //следовать примеру из главы Как все успеть (сначала выключить)
     "noImplicitAny": true,
     "strictNullChecks": true,
   },
