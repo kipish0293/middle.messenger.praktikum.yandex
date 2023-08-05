@@ -14,7 +14,5 @@ export default function serializeForm(formNode: EventTarget | null) {
         return [name, value];
     });
 
-    console.log(Object.fromEntries(formData))
-
-    return { formData : JSON.stringify(Object.fromEntries(formData), null, 2), inputElements};
+    return { formData: Object.fromEntries(formData), inputElements};
 }

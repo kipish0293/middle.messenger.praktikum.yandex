@@ -5,7 +5,7 @@ import ChatItem from "./components/chatItem";
 import Avatar from "../../components/avatar";
 import LinkButton from "../../components/linkButton";
 import Block from "../../helpers/block";
-import { changePathName } from "../../utils/changePatrhName";
+import {goApp, PATHS } from "../../utils/routerChange";
 import Search from "../../components/search/search";
 import ChatFooter from "./components/chatFooter/chatFooter";
 import serializeForm from "../../utils/serializeForm";
@@ -79,7 +79,7 @@ const linkButton = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            changePathName("profile");
+            goApp(PATHS.SET);
         },
     },
 });

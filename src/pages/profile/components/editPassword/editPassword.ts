@@ -16,7 +16,7 @@ const button = new Button({
 const inputs = [
     {
         name: "oldPassword",
-        label: "Новый пароль",
+        label: "Старый пароль",
         type: "password",
         placeholder: "Введите новый пароль",
         required: "required",

@@ -1,29 +1,14 @@
 import "./registration.scss";
-import { changePathName } from "../../utils/changePatrhName";
+import {goApp, PATHS } from "../../utils/routerChange";
 import tmpl from "./registration.tmpl";
 import Button from "../../components/button";
 import Input from "../../components/input";
-import serializeForm from "../../utils/serializeForm";
 import Block from "../../helpers/block";
 import LinkButton from "../../components/linkButton";
 import inputTemplate from "../../components/inputTemplate";
 import InputLabel from "../../components/inputLabel";
-import { validatorForm, validatorInput } from "../../utils/validators";
-
-function registrationFormHandler(event: Event) {
-    event.preventDefault();
-
-    const { formData, inputElements } = serializeForm(event.target);
-    const hasError = validatorForm(inputElements);
-    console.log(`HasError: ${hasError}, formData: ${formData}`);
-    if (hasError) {
-        return;
-    }
-
-    // Заглушка - регистрации в приложении
-    localStorage.setItem("auth", "authorized");
-    changePathName("chats");
-}
+import { validatorInput } from "../../utils/validators";
+import AuthController from "../../controllers/authorisation-controllers";
 
 class RegPage extends Block {
     constructor(props: any) {
@@ -120,7 +105,7 @@ const linkButton = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            changePathName("authorisation");
+            goApp(PATHS.AUTH);
         },
     },
 });
@@ -131,7 +116,8 @@ export default new RegPage({
     linkButton,
     events: {
         submit: (event: Event) => {
-            registrationFormHandler(event);
+            event.preventDefault()
+            AuthController.singup(event.target!)
         },
     },
     class: "form_offer",

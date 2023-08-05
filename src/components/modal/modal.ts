@@ -7,6 +7,11 @@ export default class Modal extends Block {
         super("div", props);
     }
 
+    componentDidMount(): void {
+        this.hide()
+        super.componentDidMount();
+    }
+
     render() {
         return this.compile(tmpl, { button: this.props!.button });
     }
