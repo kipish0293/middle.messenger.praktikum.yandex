@@ -1,6 +1,6 @@
 import "./authorisation.scss";
 import tmpl from "./authorisation.tmpl";
-import {goApp, PATHS } from "../../utils/routerChange";
+import { goApp, PATHS } from "../../utils/routerChange";
 import Block from "../../helpers/block";
 import Button from "../../components/button";
 import LinkButton from "../../components/linkButton";
@@ -55,7 +55,7 @@ const inputs = [
                 events: {
                     blur: (event: Event) => {
                         const inputElement = event.target as HTMLInputElement;
-                        validatorInput(inputElement)
+                        validatorInput(inputElement);
                     },
                 },
                 class: "text-field__input",
@@ -78,14 +78,15 @@ const linkButton = new LinkButton({
     },
 });
 
-export default new AuthPage({
-    button,
-    inputs,
-    linkButton,
-    events: {
-        submit: (event: Event) => {
-            event.preventDefault()
-            AuthController.signin(event.target!)
+export default () =>
+    new AuthPage({
+        button,
+        inputs,
+        linkButton,
+        events: {
+            submit: (event: Event) => {
+                event.preventDefault();
+                AuthController.signin(event.target!);
+            },
         },
-    },
-});
+    });

@@ -9,11 +9,11 @@ import InputLabel from '../../../../components/inputLabel';
 
 export default class RemoveUsersForm extends Block {
     constructor(props: any) {
-        super("form", {...props, update: true});
+        super("form", {...props, update: false});
     }
 
     componentDidUpdate(oldProps: any, newProps: any): boolean {
-        if(oldProps?.chat?.currentChatId !== newProps?.chat?.currentChatId && this.props.update) {
+        if((oldProps?.chat?.currentChatId !== newProps?.chat?.currentChatId && this.props.update) || this.props.update) {
             this.setProps({ update: false });
             this.loadUsers()
         }
@@ -25,7 +25,7 @@ export default class RemoveUsersForm extends Block {
         const user = store.getState().user
         const res = await ChatController.getChatUsers(currentChatId)
         if(res) {
-            const filtredUserIds = res.filter((i: Record<string, any>) => i.id !== user.id)
+            const filtredUserIds = res.filter((i: Record<string, any>) => i.id !== user?.id)
 
             const userList = filtredUserIds.map((i: Record<string, any>) => {
                 return new InputTemplate({

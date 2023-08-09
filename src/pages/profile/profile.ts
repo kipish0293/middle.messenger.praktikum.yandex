@@ -21,7 +21,6 @@ const editDataForm = new EditProfile({
         submit: async (event: Event) => {
             event.preventDefault();
             await UserController.profile(event.target!);
-            profile.setProps({ isUserDataForm: true, editMode: false });
             editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
         },
     },
@@ -45,7 +44,8 @@ const changeUserData = new LinkButton({
         click: (event: Event): void => {
             event.preventDefault();
             editDataForm.setProps({ editMode: true, disabledInput: null });
-            profile.setProps({ isUserDataForm: true, editMode: true });
+            editDataForm.show()
+            editPassForm.hide()
         },
     },
 });
@@ -55,7 +55,8 @@ const changeUserPass = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            profile.setProps({ isUserDataForm: false, editMode: true, disabledInput: "disabled" });
+            editDataForm.hide()
+            editPassForm.show()
         },
     },
 });
@@ -99,9 +100,6 @@ const modalContent = new ChooseAvatar({
                 const formData = new FormData();
                 formData.append("avatar", file);
                 const result = await UserController.avatar(formData);
-                //--------вынести эту логику в componentDidUpdate Profile???
-                //обновил пропсы профиля
-                profile.setProps({ userData: result });
                 //обновил пропсы аватара
                 const avatarUrl = BASE_RESOURCE_URL + result!.avatar;
                 userAvatar.setProps({ url: avatarUrl });
@@ -122,8 +120,10 @@ const backStep = new BackStep({
     title: "Назад к списку чатов",
     events: {
         click: () => {
-            profile.setProps({ isUserDataForm: true, editMode: false });
+            // profile.setProps({ isUserDataForm: true, editMode: false });
             editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
+            editDataForm.show()
+            editPassForm.hide()
             backApp();
         },
     },
@@ -151,20 +151,18 @@ class Profile extends Block {
     }
 }
 
-const ProfileWithStore = connect(state => ({user: state.user}))(Profile);
+const ProfileWithStore = connect((state) => ({ user: state.user }))(Profile);
 
-const profile = new ProfileWithStore({
-    isUserDataForm: true,
-    editMode: false,
-    userAvatar,
-    modal,
-    editDataForm,
-    editPassForm,
-    changeUserData,
-    changeUserPass,
-    backStep,
-    logout,
-});
-
-
-export default profile;
+export default () =>
+    new ProfileWithStore({
+        isUserDataForm: true,
+        editMode: false,
+        userAvatar,
+        modal,
+        editDataForm,
+        editPassForm,
+        changeUserData,
+        changeUserPass,
+        backStep,
+        logout,
+    });

@@ -3,7 +3,7 @@ export default `
         <div class="chat_offer__header-avatar">
             {{{avatar}}}
             {{chatName}}
-            <div>
+            <div class="chat_settings">
                 {{{addUser}}}
                 {{{deleteUser}}}
             </div>

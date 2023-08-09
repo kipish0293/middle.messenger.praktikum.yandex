@@ -7,7 +7,7 @@ function isEqual(lhs: any, rhs: any) {
 function renderPage(query: string = "#app", block: Block) {
     const root = document.querySelector(query);
     if (root) {
-        root.innerHTML = "";
+        // root.innerHTML = "";
         root.appendChild(block.getContent()!);
     }
     block.dispatchComponentDidMount();
@@ -15,7 +15,8 @@ function renderPage(query: string = "#app", block: Block) {
 }
 
 class Route {
-    constructor(protected _pathname: string, protected _component: Block, protected _props: Record<string, any> = {}) {}
+    _component: Block | null = null;
+    constructor(protected _pathname: string, protected _componentBuilder: () => Block, protected _props: Record<string, any> = {}) {}
 
     navigate(pathname: string) {
         if (this.match(pathname)) {
@@ -25,7 +26,10 @@ class Route {
     }
 
     leave() {
-        if (this._component) this._component.hide();
+        if (this._component) {
+            this._component.hide();
+        }
+        // this._component = null
     }
 
     match(pathname: string) {
@@ -33,10 +37,10 @@ class Route {
     }
 
     render() {
-        // if (!this._component) {
+        if (!this._component) {
+            this._component = this._componentBuilder()
             renderPage(this._props.rootQuery, this._component);
-        //  return;
-        // }
+        }
 
         this._component.show();
     }

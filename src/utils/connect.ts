@@ -12,7 +12,6 @@ export function connect(mapStateToProps: (state: Indexed) => Indexed) {
             constructor(props: any) {
                 let state = mapStateToProps(store.getState());
 
-
                 // подписываемся на событие
                 store.on(StoreEvents.Updated, () => {
                     // при обновлении получаем новое состояние

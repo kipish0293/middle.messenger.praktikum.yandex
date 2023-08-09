@@ -61,6 +61,11 @@ export default class EditPassword extends Block {
         super("form", { inputs, button, ...props });
     }
 
+    componentDidMount(): void {
+        this.hide()
+        super.componentDidMount();
+    }
+
     render() {
         return this.compile(tmpl, { ...this.props });
     }

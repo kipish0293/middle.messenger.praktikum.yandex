@@ -3,10 +3,10 @@ export default `
         <div class="message__right">
             <div class="message__content">
                 <div>
-                    {{text}}
+                    {{content}}
                 </div>
                 <div class="message__date">
-                    {{date}}
+                    {{time}}
                 </div>
             </div>
         </div>
@@ -15,10 +15,10 @@ export default `
             <div class="message__content">
                 <span>{{name}}</span>
                 <div>
-                    {{text}}
+                    {{content}}
                 </div>
                 <div class="message__date">
-                    {{date}}
+                    {{time}}
                 </div>
             </div>
         </div>

@@ -26,6 +26,7 @@ import UserController from "../../controllers/user-controller";
 import AddUsersForm from "./components/addUsersForm/addUsersForm";
 import store from "../../helpers/store";
 import RemoveUsersForm from "./components/removeUsersForm/removeUsersForm";
+import AuthController from "../../controllers/authorisation-controller";
 
 // window.takeaway = () => ChatController.createChat({title: "Третий Новый чат, созданный вручную"})
 
@@ -37,6 +38,7 @@ class ChatsPage extends Block {
 
     public async loadChats() {
         await ChatController.getChats({ limit: 100 });
+        await AuthController.user();
     }
 
     componentDidUpdate(oldProps: any, newProps: any): boolean {
@@ -48,13 +50,14 @@ class ChatsPage extends Block {
                     avatar: new Avatar({ size: "small", url: newUrl }),
                     events: {
                         click: () => {
+                            store.set("chat.currentChatId", it.id);
                             chatComponent.setProps({
                                 avatar: new Avatar({ size: "small", url: newUrl }),
                                 currentChatId: it.id,
                                 chatName: it.title,
                                 update: true,
                             });
-                            store.set("chat.currentChatId", it.id);
+                            modalRemoveUserInChatContent.setProps({ update: true });
                         },
                     },
                     class: "chats_chatitem",
@@ -91,7 +94,7 @@ const search = new Search({
     },
 });
 
-const ChatWithStore = connect((state) => ({ state: { user: state.user } }))(Chat);
+const ChatWithStore = connect((state) => ({ state: { user: state.user, socket: state.socket, messages: state.messages } }))(Chat);
 
 const chatComponent = new ChatWithStore({
     addUser: new CreateChatIcon({
@@ -111,8 +114,8 @@ const chatComponent = new ChatWithStore({
         title: "Удалить",
         events: {
             click: () => {
-                modal.setProps({ modalContent: modalRemoveUserInChatContent });
                 modalRemoveUserInChatContent.setProps({ update: true });
+                modal.setProps({ modalContent: modalRemoveUserInChatContent });
                 modal.show();
             },
         },
@@ -134,11 +137,19 @@ const chatComponent = new ChatWithStore({
             submit: (event: Event) => {
                 event.preventDefault();
                 const { formData, inputElements } = serializeForm(event.target);
+                const socket = store.getState().socket
+
                 const hasError = validatorForm(inputElements);
-                console.log(`HasError: ${hasError}, formData: ${formData}`);
                 if (hasError) {
                     return;
                 }
+
+                const prepareData = {
+                    type: "message",
+                    content: formData.message
+                }
+
+                socket.send(prepareData)
             },
         },
     }),
@@ -294,11 +305,12 @@ const createChat = new CreateChatIcon({
 
 const ChatsWithStore = connect((state) => ({ chat: { ...state.chat }, user: { ...state.user } }))(ChatsPage);
 
-export default new ChatsWithStore({
-    linkButton,
-    modal,
-    createChat,
-    search,
-    chatComponent,
-    class: "chats_offer",
-});
+export default () =>
+    new ChatsWithStore({
+        linkButton,
+        modal,
+        createChat,
+        search,
+        chatComponent,
+        class: "chats_offer",
+    });

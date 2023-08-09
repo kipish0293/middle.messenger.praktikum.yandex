@@ -110,7 +110,7 @@ const linkButton = new LinkButton({
     },
 });
 
-export default new RegPage({
+export default () => new RegPage({
     button,
     inputs,
     linkButton,

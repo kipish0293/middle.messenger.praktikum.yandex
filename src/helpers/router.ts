@@ -21,8 +21,8 @@ export default class Router {
         Router.__instance = this;
     }
 
-    use(pathname: string, block: Block) {
-        const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+    use(pathname: string, _componentBuilder: () => Block) {
+        const route = new Route(pathname, _componentBuilder, { rootQuery: this._rootQuery });
 
         this.routes.push(route);
 
@@ -33,7 +33,9 @@ export default class Router {
         window.onpopstate = ((event: PopStateEvent) => {
             //тут добавить потом проверку на авторизованность, чтобы авторизованный пользователь не выпадал на страницу авторизации и наоборот
             const curTarget = event.currentTarget as any;
-            const {location: {pathname}} = curTarget
+            const {
+                location: { pathname },
+            } = curTarget;
             this._onRoute(pathname);
         }).bind(this);
 
@@ -44,7 +46,7 @@ export default class Router {
         const route = this.getRoute(pathname);
 
         if (!route) {
-            return
+            return;
         }
 
         if (this._currentRoute && this._currentRoute !== route) {
@@ -57,7 +59,7 @@ export default class Router {
     }
 
     go(pathname: string) {
-        this.history.pushState({}, '', pathname);
+        this.history.pushState({}, "", pathname);
         this._onRoute(pathname);
     }
 
@@ -70,10 +72,10 @@ export default class Router {
     }
 
     getRoute(pathname: string) {
-        const route = this.routes.find(route => route.match(pathname))
-        if(route) {
-            return route
+        const route = this.routes.find((route) => route.match(pathname));
+        if (route) {
+            return route;
         }
-        return this.routes.find(route => route.match('/404'))
+        return this.routes.find((route) => route.match("/404"));
     }
 }
