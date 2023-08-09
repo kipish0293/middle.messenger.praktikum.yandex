@@ -12,8 +12,8 @@ interface IProfile {
 }
 
 interface IPassword {
-    oldPassword: string,
-    newPassword: string
+    oldPassword: string;
+    newPassword: string;
 }
 
 class UserController {
@@ -41,7 +41,7 @@ class UserController {
 
             const prepareData: IPassword = {
                 oldPassword: formData.oldPassword,
-                newPassword: formData.newPassword
+                newPassword: formData.newPassword,
             };
 
             await UserAPI.password(prepareData);
@@ -53,20 +53,20 @@ class UserController {
     public async avatar(data: FormData) {
         try {
             const res = await UserAPI.avatar(data);
-            return res.data
+            return res.data;
         } catch (error) {
             console.log(error);
-            return
+            return;
         }
     }
 
     public async search(data: Record<string, any>) {
         try {
             const res = await UserAPI.search(data);
-            return res.data
+            return res.data;
         } catch (error) {
             console.log(error);
-            return
+            return;
         }
     }
 }

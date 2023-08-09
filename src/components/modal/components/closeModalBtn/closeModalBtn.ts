@@ -1,10 +1,9 @@
-import "./oneTextFieldForm.scss";
-import tmpl from "./oneTextfieldForm.tmpl";
 import Block from "../../../../helpers/block";
+import tmpl from "./closeModalBtn.tmpl";
 
-export default class OneTextfieldForm extends Block {
+export default class CloseModalBtn extends Block {
     constructor(props: any) {
-        super("form", props);
+        super("div", props);
     }
 
     render() {

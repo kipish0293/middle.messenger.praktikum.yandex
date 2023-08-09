@@ -16,7 +16,11 @@ function renderPage(query: string = "#app", block: Block) {
 
 class Route {
     _component: Block | null = null;
-    constructor(protected _pathname: string, protected _componentBuilder: () => Block, protected _props: Record<string, any> = {}) {}
+    constructor(
+        protected _pathname: string,
+        protected _componentBuilder: () => Block,
+        protected _props: Record<string, any> = {}
+    ) {}
 
     navigate(pathname: string) {
         if (this.match(pathname)) {
@@ -38,7 +42,7 @@ class Route {
 
     render() {
         if (!this._component) {
-            this._component = this._componentBuilder()
+            this._component = this._componentBuilder();
             renderPage(this._props.rootQuery, this._component);
         }
 

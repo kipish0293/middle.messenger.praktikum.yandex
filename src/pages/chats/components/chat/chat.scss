@@ -11,27 +11,29 @@
   border-bottom: 1px solid #e5e5e5;
   padding: 10px;
   align-items: center;
-  height: 8vh;
+  height: 10vh;
   background-color: #fff;
 }
 
 .chat_offer__messages-list {
-  height: 85vh;
+  height: 80vh;
   overflow-y: scroll;
 }
 
 .chat_offer__chat-footer {
-  height: 7vh;
+  height: 10vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
   border-top: 1px solid #e5e5e5;
   margin-top: 5px;
+  padding-top: 5px;
 }
 
 .chat_settings {
   margin-left: auto;
   padding: 20px;
+
   .group_add {
     margin-right: 10px;
   }
