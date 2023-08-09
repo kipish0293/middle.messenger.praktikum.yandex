@@ -1,5 +1,5 @@
 import "./profile.scss";
-import { changePathName } from "../../utils/changePatrhName";
+import { backApp } from "../../utils/routerChange";
 import tmpl from "./profile.tmpl";
 import Avatar from "../../components/avatar";
 import Modal from "../../components/modal";
@@ -7,38 +7,21 @@ import Block from "../../helpers/block";
 import Button from "../../components/button";
 import LinkButton from "../../components/linkButton";
 import EditProfile from "./components/editProfile";
-import serializeForm from "../../utils/serializeForm";
 import EditPassword from "./components/editPassword";
 import BackStep from "./components/backStep";
-import { validatorForm } from "../../utils/validators";
-
-function saveUserData(event: Event) {
-    event.preventDefault();
-    const {formData, inputElements} = serializeForm(event.target);
-    const hasError = validatorForm(inputElements)
-    console.log(`HasError: ${hasError}, formData: ${formData}`);
-    if(hasError) {
-        return
-    }
-    // editDataMode - завязать логику запроса на сервер по этому флагу
-    // логика обновления данных с сервера
-    profile.setProps({ isUserDataForm: true, editMode: false });
-    editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
-}
-
-function changeAvatar() {
-    const modal = document.querySelector("#modal");
-    const modalOverlay = document.querySelector("#modal-overlay");
-    modal?.classList.toggle("open");
-    modalOverlay?.classList.toggle("open");
-}
+import AuthController from "../../controllers/authorisation-controller";
+import UserController from "../../controllers/user-controller";
+import ChooseAvatar from "../../components/avatar/components/chooseAvatar";
+import { BASE_RESOURCE_URL } from "../../utils/constants";
+import { connect } from "../../utils/connect";
 
 const editDataForm = new EditProfile({
     disabledInput: "disabled",
     events: {
-        submit: (event: Event) => {
+        submit: async (event: Event) => {
             event.preventDefault();
-            saveUserData(event);
+            await UserController.profile(event.target!);
+            editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
         },
     },
     id: "profile-data-form",
@@ -47,9 +30,9 @@ const editDataForm = new EditProfile({
 
 const editPassForm = new EditPassword({
     events: {
-        submit: (event: Event) => {
+        submit: async (event: Event) => {
             event.preventDefault();
-            saveUserData(event);
+            await UserController.password(event.target!);
         },
     },
     class: "profile-pass-form",
@@ -61,7 +44,8 @@ const changeUserData = new LinkButton({
         click: (event: Event): void => {
             event.preventDefault();
             editDataForm.setProps({ editMode: true, disabledInput: null });
-            profile.setProps({ isUserDataForm: true, editMode: true });
+            editDataForm.show()
+            editPassForm.hide()
         },
     },
 });
@@ -71,7 +55,8 @@ const changeUserPass = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            profile.setProps({ isUserDataForm: false, editMode: true, disabledInput: "disabled" });
+            editDataForm.hide()
+            editPassForm.show()
         },
     },
 });
@@ -81,43 +66,65 @@ const logout = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            localStorage.removeItem("auth");
-            changePathName("");
+            AuthController.logout();
         },
     },
 });
 
 const userAvatar = new Avatar({
     size: "medium",
-    url: "https://i.stack.imgur.com/WXyZl.jpg",
+    url: "",
     canChangeAvatar: true,
     events: {
         click: () => {
-            changeAvatar();
+            modal.show();
+        },
+    },
+});
+
+const saveAvatarBtn = new Button({
+    type: "submit",
+    id: "change-avatar",
+    name: "Сохранить",
+});
+
+const modalContent = new ChooseAvatar({
+    button: saveAvatarBtn,
+    events: {
+        submit: async (event: Event) => {
+            event.preventDefault();
+            const fileInput = document.querySelector("#avatar-input") as HTMLInputElement;
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+
+                const formData = new FormData();
+                formData.append("avatar", file);
+                const result = await UserController.avatar(formData);
+                //обновил пропсы аватара
+                const avatarUrl = BASE_RESOURCE_URL + result!.avatar;
+                userAvatar.setProps({ url: avatarUrl });
+                modal.hide();
+            } else {
+                console.log("Файл не выбран");
+                modal.hide();
+            }
         },
     },
 });
 
 const modal = new Modal({
-    button: new Button({
-        type: "button",
-        id: "accept",
-        name: "Применить",
-        events: {
-            click: () => {
-                changeAvatar();
-            },
-        },
-    }),
+    modalContent: modalContent,
 });
 
 const backStep = new BackStep({
     title: "Назад к списку чатов",
     events: {
         click: () => {
-            profile.setProps({ isUserDataForm: true, editMode: false });
+            // profile.setProps({ isUserDataForm: true, editMode: false });
             editDataForm.setProps({ editMode: false, disabledInput: "disabled" });
-            changePathName("chats");
+            editDataForm.show()
+            editPassForm.hide()
+            backApp();
         },
     },
     class: "back-step",
@@ -131,22 +138,12 @@ class Profile extends Block {
     }
 
     async loadUserData() {
-        // логика запроса на сервер
-        const userData: Record<string, any> = await new Promise((res) => {
-            setTimeout(() => {
-                res({
-                    first_name: "Pavel",
-                    second_name: "Martynov",
-                    display_name: "CowBoy bibop",
-                    login: "123456",
-                    email: "pavel-martynov@ya.ru",
-                    phone: "79008001234",
-                });
-            }, 1000);
-        });
+        await AuthController.user();
 
-        this.setProps({ userData: userData });
-        editDataForm.setProps({ userData: userData });
+        this.setProps({ userData: this.props.user });
+        editDataForm.setProps({ userData: this.props.user });
+        const avatarUrl = BASE_RESOURCE_URL + this.props.user!.avatar;
+        userAvatar.setProps({ url: avatarUrl });
     }
 
     render() {
@@ -154,17 +151,18 @@ class Profile extends Block {
     }
 }
 
-const profile = new Profile({
-    isUserDataForm: true,
-    editMode: false,
-    userAvatar,
-    modal,
-    editDataForm,
-    editPassForm,
-    changeUserData,
-    changeUserPass,
-    backStep,
-    logout,
-});
+const ProfileWithStore = connect((state) => ({ user: state.user }))(Profile);
 
-export default profile;
+export default () =>
+    new ProfileWithStore({
+        isUserDataForm: true,
+        editMode: false,
+        userAvatar,
+        modal,
+        editDataForm,
+        editPassForm,
+        changeUserData,
+        changeUserPass,
+        backStep,
+        logout,
+    });

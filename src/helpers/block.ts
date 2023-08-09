@@ -2,7 +2,7 @@ import EventBus from "./eventBus";
 import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
 
-class Block {
+abstract class Block {
     static EVENTS = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
@@ -188,7 +188,7 @@ class Block {
             return;
         }
 
-        this._setUpdate = false;
+        this._setUpdate = true; // возможно надо вернуть на false !!!!!!!!!!
         const oldValue = { ...this.props };
 
         const { children, propses } = this._getChildren(nextProps);
@@ -213,7 +213,6 @@ class Block {
 
     _render() {
         const block = this.render(); // render теперь возвращает DocumentFragment
-
         this._removeEvents();
         if (this._element && block !== undefined) {
             this._element.innerHTML = ""; // удаляем предыдущее содержимое
@@ -303,7 +302,7 @@ class Block {
     }
 
     show() {
-        this.getContent()!.style.display = "block";
+        this.getContent()!.style.display = "flex";
     }
 
     hide() {

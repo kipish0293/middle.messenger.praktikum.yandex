@@ -1,4 +1,4 @@
 export default `
-    {{{chatIcon}}}
-    <span>{{chatName}}</span>
+    {{{avatar}}}
+    <span>{{title}}</span>
 `;

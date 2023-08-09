@@ -16,7 +16,7 @@ const button = new Button({
 const inputs = [
     {
         name: "oldPassword",
-        label: "Новый пароль",
+        label: "Старый пароль",
         type: "password",
         placeholder: "Введите новый пароль",
         required: "required",
@@ -59,6 +59,11 @@ const inputs = [
 export default class EditPassword extends Block {
     constructor(props: any) {
         super("form", { inputs, button, ...props });
+    }
+
+    componentDidMount(): void {
+        this.hide()
+        super.componentDidMount();
     }
 
     render() {

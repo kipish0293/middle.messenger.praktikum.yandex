@@ -1,7 +1,7 @@
 import "./error404.scss";
 import LinkButton from "../../components/linkButton";
 import Block from "../../helpers/block";
-import { changePathName } from "../../utils/changePatrhName";
+import {goApp, PATHS } from "../../utils/routerChange";
 import tmpl from "./error404.tmpl";
 
 class Error404 extends Block {
@@ -19,12 +19,12 @@ const linkButton = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            changePathName("chats");
+            goApp(PATHS.MES);
         },
     },
 });
 
-export default new Error404({
+export default () => new Error404({
     linkButton,
     class: "screen-content-center",
 });
