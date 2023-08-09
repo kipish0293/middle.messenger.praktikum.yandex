@@ -80,7 +80,7 @@ export class WSTransport extends EventBus {
                 if(['pong', 'user connected'].includes(data?.type)) {
                     return;
                 }
-                // this.emit(WSTransportEvents.Message, data)
+                this.emit(WSTransportEvents.Message, data)
                 if(Array.isArray(data)) {
                     console.log('if array')
                     store.set('messages', data.sort((a,b) => a.time > b.time ? 1 : -1))
@@ -90,7 +90,6 @@ export class WSTransport extends EventBus {
                     const newMes = [...messages, data]
                     store.set('messages', newMes)
                 }
-
             } catch (e) {
                 //игнор ошибок JSON.parse
             }

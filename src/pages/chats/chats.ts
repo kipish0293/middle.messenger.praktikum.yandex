@@ -137,19 +137,21 @@ const chatComponent = new ChatWithStore({
             submit: (event: Event) => {
                 event.preventDefault();
                 const { formData, inputElements } = serializeForm(event.target);
-                const socket = store.getState().socket
-
                 const hasError = validatorForm(inputElements);
                 if (hasError) {
                     return;
                 }
+
+                const socket = store.getState().socket
+                const chatId = store.getState().chat.currentChatId
 
                 const prepareData = {
                     type: "message",
                     content: formData.message
                 }
 
-                socket.send(prepareData)
+                const currentSocket = socket[chatId]
+                currentSocket.send(prepareData)
             },
         },
     }),
