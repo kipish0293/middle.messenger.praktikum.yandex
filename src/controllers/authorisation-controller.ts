@@ -1,4 +1,5 @@
 import AuthAPI from "../api/authorisation-api";
+import store from "../helpers/store";
 import { goApp, PATHS } from "../utils/routerChange";
 import serializeForm from "../utils/serializeForm";
 import { validatorForm } from "../utils/validators";
@@ -47,7 +48,7 @@ class AuthController {
         }
     }
 
-    public async singin(data: EventTarget) {
+    public async signin(data: EventTarget) {
         try {
             const { formData, inputElements } = serializeForm(data);
             const hasError = validatorForm(inputElements);
@@ -55,7 +56,7 @@ class AuthController {
                 return;
             }
 
-            const res = await AuthAPI.singin(formData as LoginFormModel);
+            const res = await AuthAPI.signin(formData as LoginFormModel);
 
             if (res.status) {
                 goApp(PATHS.MES);
@@ -67,21 +68,18 @@ class AuthController {
 
     public async logout() {
         try {
-            const res = await AuthAPI.logout();
-
-            if (res.status) {
-                goApp(PATHS.AUTH);
-            }
+            await AuthAPI.logout();
         } catch (error) {
             console.log(error);
+        } finally {
+            goApp(PATHS.AUTH);
         }
     }
 
     public async user() {
         try {
             const res = await AuthAPI.user();
-            //затем вынести логику в Store
-            return res.data
+            store.set('user', res.data)
         } catch (error) {
             console.log(error);
             return

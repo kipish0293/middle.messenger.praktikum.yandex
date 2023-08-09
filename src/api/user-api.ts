@@ -26,7 +26,8 @@ class UserAPI{
     }
 
     search(data: Record<string, any>) {
-        return this.httpTransport.post('/search', data);
+        console.log(data)
+        return this.httpTransport.post('/search', {data});
     }
 }
 

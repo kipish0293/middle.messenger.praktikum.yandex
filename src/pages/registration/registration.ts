@@ -8,7 +8,7 @@ import LinkButton from "../../components/linkButton";
 import inputTemplate from "../../components/inputTemplate";
 import InputLabel from "../../components/inputLabel";
 import { validatorInput } from "../../utils/validators";
-import AuthController from "../../controllers/authorisation-controllers";
+import AuthController from "../../controllers/authorisation-controller";
 
 class RegPage extends Block {
     constructor(props: any) {

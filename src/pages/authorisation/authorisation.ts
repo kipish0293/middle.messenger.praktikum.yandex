@@ -8,7 +8,7 @@ import InputTemplate from "../../components/inputTemplate";
 import Input from "../../components/input/input";
 import InputLabel from "../../components/inputLabel";
 import { validatorInput } from "../../utils/validators";
-import AuthController from "../../controllers/authorisation-controllers";
+import AuthController from "../../controllers/authorisation-controller";
 
 class AuthPage extends Block {
     constructor(props: any) {
@@ -85,7 +85,7 @@ export default new AuthPage({
     events: {
         submit: (event: Event) => {
             event.preventDefault()
-            AuthController.singin(event.target!)
+            AuthController.signin(event.target!)
         },
     },
 });

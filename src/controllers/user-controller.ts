@@ -1,5 +1,4 @@
 import UserAPI from "../api/user-api";
-// import { goApp, PATHS } from "../utils/routerChange";
 import serializeForm from "../utils/serializeForm";
 import { validatorForm } from "../utils/validators";
 
@@ -26,12 +25,7 @@ class UserController {
                 return;
             }
 
-            const res = await UserAPI.profile(formData as IProfile);
-            console.log(res)
-
-            // if (res.status) {
-            //     goApp(PATHS.MES);
-            // }
+            await UserAPI.profile(formData as IProfile);
         } catch (error) {
             console.log(error);
         }
@@ -50,12 +44,7 @@ class UserController {
                 newPassword: formData.newPassword
             };
 
-            const res = await UserAPI.password(prepareData);
-            console.log(res)
-
-            // if (res.status) {
-            //     goApp(PATHS.MES);
-            // }
+            await UserAPI.password(prepareData);
         } catch (error) {
             console.log(error);
         }
@@ -64,6 +53,16 @@ class UserController {
     public async avatar(data: FormData) {
         try {
             const res = await UserAPI.avatar(data);
+            return res.data
+        } catch (error) {
+            console.log(error);
+            return
+        }
+    }
+
+    public async search(data: Record<string, any>) {
+        try {
+            const res = await UserAPI.search(data);
             return res.data
         } catch (error) {
             console.log(error);

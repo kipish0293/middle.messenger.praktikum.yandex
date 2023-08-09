@@ -188,7 +188,7 @@ abstract class Block {
             return;
         }
 
-        this._setUpdate = false;
+        this._setUpdate = true; // возможно надо вернуть на false !!!!!!!!!!
         const oldValue = { ...this.props };
 
         const { children, propses } = this._getChildren(nextProps);
