@@ -80,12 +80,9 @@ export class WSTransport extends EventBus {
                 if(['pong', 'user connected'].includes(data?.type)) {
                     return;
                 }
-                this.emit(WSTransportEvents.Message, data)
                 if(Array.isArray(data)) {
-                    console.log('if array')
                     store.set('messages', data.sort((a,b) => a.time > b.time ? 1 : -1))
                 } else {
-                    console.log('if object')
                     const messages = store.getState().messages
                     const newMes = [...messages, data]
                     store.set('messages', newMes)

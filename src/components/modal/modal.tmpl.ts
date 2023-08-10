@@ -3,6 +3,7 @@ export default `
   </div>
 
   <div class="modal" id="modal">
+    {{{closeModalBtn}}}
     <div class="modal-guts">
       {{{modalContent}}}
     </div>

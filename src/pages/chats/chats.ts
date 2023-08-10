@@ -10,7 +10,7 @@ import { goApp, PATHS } from "../../utils/routerChange";
 import Search from "../../components/search/search";
 import ChatFooter from "./components/chatFooter/chatFooter";
 import serializeForm from "../../utils/serializeForm";
-import { validatorForm, validatorInput } from "../../utils/validators";
+import { validatorForm } from "../../utils/validators";
 import Input from "../../components/input";
 import { connect } from "../../utils/connect";
 import ChatController from "../../controllers/chat-controller";
@@ -94,7 +94,9 @@ const search = new Search({
     },
 });
 
-const ChatWithStore = connect((state) => ({ state: { user: state.user, socket: state.socket, messages: state.messages } }))(Chat);
+const ChatWithStore = connect((state) => ({
+    state: { user: state.user, socket: state.socket, messages: state.messages },
+}))(Chat);
 
 const chatComponent = new ChatWithStore({
     addUser: new CreateChatIcon({
@@ -122,15 +124,14 @@ const chatComponent = new ChatWithStore({
     }),
     chatFooter: new ChatFooter({
         input: new Input({
-            events: {
-                blur: (event: Event) => {
-                    const inputElement = event.target as HTMLInputElement;
-                    validatorInput(inputElement);
-                },
-            },
             class: "chat-footer__input",
             name: "message",
             placeholder: "Сообщение",
+        }),
+        label: new InputLabel({
+            name: "message",
+            label: "Сообщение",
+            class: "chat-footer__label",
         }),
         class: "chat-footer",
         events: {
@@ -142,16 +143,23 @@ const chatComponent = new ChatWithStore({
                     return;
                 }
 
-                const socket = store.getState().socket
-                const chatId = store.getState().chat.currentChatId
+                const socket = store.getState().socket;
+                const chatId = store.getState().chat.currentChatId;
 
                 const prepareData = {
                     type: "message",
-                    content: formData.message
-                }
+                    content: formData.message,
+                };
+                const currentSocket = socket[chatId];
+                currentSocket.send(prepareData);
 
-                const currentSocket = socket[chatId]
-                currentSocket.send(prepareData)
+                //очистка поля ввода
+                setTimeout(() => {
+                    const inputRef = document.querySelector(".chat-footer__input") as HTMLInputElement;
+                    inputRef.value = "";
+                    inputRef.focus();
+                    inputRef.select();
+                }, 300);
             },
         },
     }),
