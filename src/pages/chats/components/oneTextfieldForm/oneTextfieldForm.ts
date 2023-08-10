@@ -1,4 +1,4 @@
-import "./oneTextfieldForm.scss";
+import "./oneTextFieldForm.scss";
 import tmpl from "./oneTextfieldForm.tmpl";
 import Block from "../../../../helpers/block";
 
