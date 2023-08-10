@@ -79,10 +79,10 @@ class AuthController {
     public async user() {
         try {
             const res = await AuthAPI.user();
-            store.set('user', res.data)
+            store.set("user", res.data);
         } catch (error) {
             console.log(error);
-            return
+            return;
         }
     }
 }
