@@ -1,3 +1,5 @@
+import { BASE_URL } from "../utils/constants";
+
 enum METHOD {
     GET = "GET",
     POST = "POST",
@@ -19,9 +21,15 @@ type OptionsWithoutMethod = Omit<Options, "method">;
 type HTTPMethod = (url: string | URL, options?: OptionsWithoutMethod ) => Promise<{status: number, data: Record<string, any>}>
 
 class HTTPTransport {
-    constructor(private baseUrl: string = '') {}
+    private baseURL: string = BASE_URL;
+    protected fullURL: string
+
+    constructor(url: string) {
+        this.fullURL = this.baseURL + url
+    }
+
     get: HTTPMethod = (url, options = {}) => {
-        const newURL = new URL(this.baseUrl + url);
+        const newURL = new URL(this.fullURL + url);
         if (Object.keys(options).length) {
             Object.entries(options).map(([key, value]) => {
                 if (value) {
@@ -33,17 +41,17 @@ class HTTPTransport {
     }
 
     post: HTTPMethod = (url, options = {}) => {
-        const newURL = new URL(this.baseUrl + url);
+        const newURL = new URL(this.fullURL + url);
         return this.request(newURL, { ...options, method: METHOD.POST });
     }
 
     put: HTTPMethod = (url, options = {}) => {
-        const newURL = new URL(this.baseUrl + url);
+        const newURL = new URL(this.fullURL + url);
         return this.request(newURL, { ...options, method: METHOD.PUT });
     }
 
     delete: HTTPMethod = (url, options = {}) => {
-        const newURL = new URL(this.baseUrl + url);
+        const newURL = new URL(this.fullURL + url);
         return this.request(newURL, { ...options, method: METHOD.DELETE });
     }
 

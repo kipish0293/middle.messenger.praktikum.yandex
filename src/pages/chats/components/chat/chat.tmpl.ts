@@ -6,6 +6,7 @@ export default `
             <div class="chat_settings">
                 {{{addUser}}}
                 {{{deleteUser}}}
+                {{{deleteChatById}}}
             </div>
         </div>
         <div class="chat_offer__messages-list">

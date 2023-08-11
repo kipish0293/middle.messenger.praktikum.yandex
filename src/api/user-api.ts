@@ -1,12 +1,10 @@
 import HTTPTransport from '../helpers/httpTransport';
 
 class UserAPI{
-    private baseUrl: string = 'https://ya-praktikum.tech/api/v2/user';
-
     httpTransport: HTTPTransport;
 
     constructor() {
-        this.httpTransport = new HTTPTransport(this.baseUrl)
+        this.httpTransport = new HTTPTransport('/user')
     }
 
     profile(data: Record<string, any>) {
