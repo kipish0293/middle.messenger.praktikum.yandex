@@ -43,7 +43,8 @@ class AuthController {
             if (resData.id) {
                 goApp(PATHS.MES);
             }
-        } catch (error) {
+        } catch (error: any) {
+            if (error.reason === "User already in system") goApp(PATHS.MES);
             console.log(error);
         }
     }
@@ -61,7 +62,8 @@ class AuthController {
             if (res.status) {
                 goApp(PATHS.MES);
             }
-        } catch (error) {
+        } catch (error: any) {
+            if (error.reason === "User already in system") goApp(PATHS.MES);
             console.log(error);
         }
     }
