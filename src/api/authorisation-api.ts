@@ -1,12 +1,10 @@
 import HTTPTransport from '../helpers/httpTransport';
 
 class AuthAPI{
-    private baseUrl: string = 'https://ya-praktikum.tech/api/v2/auth';
-
     httpTransport: HTTPTransport;
 
     constructor() {
-        this.httpTransport = new HTTPTransport(this.baseUrl)
+        this.httpTransport = new HTTPTransport('/auth')
     }
 
     singup(data: Record<string, any>) {

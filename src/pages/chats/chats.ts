@@ -27,6 +27,7 @@ import AddUsersForm from "./components/addUsersForm/addUsersForm";
 import store from "../../helpers/store";
 import RemoveUsersForm from "./components/removeUsersForm/removeUsersForm";
 import AuthController from "../../controllers/authorisation-controller";
+import ConfirmationContent from "./components/confirmationContent";
 
 // window.takeaway = () => ChatController.createChat({title: "Третий Новый чат, созданный вручную"})
 
@@ -94,6 +95,45 @@ const search = new Search({
     },
 });
 
+const confirmationContent = new ConfirmationContent({
+    title: "Чат будет удален без возможности восстановления. Вы уверены?",
+    confirmBtn: new Button({
+        type: "button",
+        id: "confirm-btn",
+        name: "Да",
+        events: {
+            click: async () => {
+                const chatID = store.getState().chat.currentChatId;
+
+                const res = await ChatController.deleteChatById({ chatId: chatID });
+                if (res) {
+                    modal.setProps({ modalContent: null });
+                    modal.hide();
+                    store.set("chat.currentChatId", null);
+                    chatComponent.setProps({
+                        currentChatId: null,
+                    });
+                } else {
+                    console.log("Что-то пошло не так, попробуйте позже");
+                    modal.setProps({ modalContent: null });
+                    modal.hide();
+                }
+            },
+        },
+    }),
+    cancelBtn: new Button({
+        type: "button",
+        id: "cancel-btn",
+        name: "Нет",
+        events: {
+            click: () => {
+                modal.setProps({ modalContent: null });
+                modal.hide();
+            },
+        },
+    }),
+});
+
 const ChatWithStore = connect((state) => ({
     state: { user: state.user, socket: state.socket, messages: state.messages },
 }))(Chat);
@@ -118,6 +158,17 @@ const chatComponent = new ChatWithStore({
             click: () => {
                 modalRemoveUserInChatContent.setProps({ update: true });
                 modal.setProps({ modalContent: modalRemoveUserInChatContent });
+                modal.show();
+            },
+        },
+    }),
+    deleteChatById: new CreateChatIcon({
+        iconName: "delete",
+        class: "material-icons delete",
+        title: "Удалить чат",
+        events: {
+            click: () => {
+                modal.setProps({ modalContent: confirmationContent });
                 modal.show();
             },
         },

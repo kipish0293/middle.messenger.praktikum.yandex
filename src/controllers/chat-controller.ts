@@ -71,6 +71,24 @@ class ChatController {
             return;
         }
     }
+
+    public async deleteChatById(data: Record<string, any>) {
+        try {
+            const res = await ChatApi.deleteChatById(data);
+            const chatList = store.getState()?.chat?.chatList;
+            if (chatList) {
+                store.set(
+                    "chat.chatList",
+                    chatList.filter((i: Record<string, any>) => i.id !== data.chatId)
+                );
+            }
+
+            return res.data;
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+    }
 }
 
 export default new ChatController();

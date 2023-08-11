@@ -1,12 +1,10 @@
 import HTTPTransport from "../helpers/httpTransport";
 
 class ChatAPI {
-    private baseUrl: string = "https://ya-praktikum.tech/api/v2/chats";
-
     httpTransport: HTTPTransport;
 
     constructor() {
-        this.httpTransport = new HTTPTransport(this.baseUrl);
+        this.httpTransport = new HTTPTransport('/chats');
     }
 
     getChatUsers(chatId: number) {
@@ -38,8 +36,11 @@ class ChatAPI {
     }
 
     deleteChatUsers(data: Record<string, any>) {
-        console.log(data);
         return this.httpTransport.delete("/users", { data });
+    }
+
+    deleteChatById(data: Record<string, any>) {
+        return this.httpTransport.delete("/", { data });
     }
 }
 
