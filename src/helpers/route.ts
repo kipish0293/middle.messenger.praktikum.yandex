@@ -1,17 +1,8 @@
+import { renderPage } from "../utils/heplerFunction";
 import Block from "./block";
 
 function isEqual(lhs: any, rhs: any) {
     return lhs === rhs;
-}
-
-function renderPage(query: string = "#app", block: Block) {
-    const root = document.querySelector(query);
-    if (root) {
-        // root.innerHTML = "";
-        root.appendChild(block.getContent()!);
-    }
-    block.dispatchComponentDidMount();
-    return root;
 }
 
 class Route {
@@ -33,7 +24,6 @@ class Route {
         if (this._component) {
             this._component.hide();
         }
-        // this._component = null
     }
 
     match(pathname: string) {
