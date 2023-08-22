@@ -9,12 +9,11 @@ export default function serializeForm(formNode: EventTarget | null) {
         }
         return false;
     });
-    const formData = inputElements.map((element) => {
-        const { name, value } = element as HTMLInputElement;
+    const formData = inputElements.map((element: any) => {
+        const { name, type } = element as HTMLInputElement;
+        const value = type === 'checkbox' ? element.checked : element.value
         return [name, value];
     });
 
-    console.log(Object.fromEntries(formData))
-
-    return { formData : JSON.stringify(Object.fromEntries(formData), null, 2), inputElements};
+    return { formData: Object.fromEntries(formData), inputElements};
 }

@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   height: 100vh;
+  overflow-x: auto;
 }
 
 .chats_offer__chatlist {
@@ -27,12 +28,20 @@
 
 .chats_offer__profile {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 10px;
+  height: 7vh;
 }
 
 .chats_offer__search {
   padding: 10px;
+  height: 7vh;
+}
+
+.chats_offer__chatitem {
+  height: 86vh;
+  overflow: auto;
+  margin-top: 30px;
 }
 
 .chats_offer__profile a {

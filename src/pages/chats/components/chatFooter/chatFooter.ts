@@ -1,6 +1,6 @@
-import Block from "../../../../helpers/block";
 import "./chatFooter.scss";
 import tmpl from "./chatFooter.tmpl";
+import Block from "../../../../helpers/block";
 
 export default class ChatFooter extends Block {
     constructor(props: any) {

@@ -1,8 +1,13 @@
 export default `
-    {{#if chatId}}
+    {{#if currentChatId}}
         <div class="chat_offer__header-avatar">
-            {{{chatAvatar}}}
+            {{{avatar}}}
             {{chatName}}
+            <div class="chat_settings">
+                {{{addUser}}}
+                {{{deleteUser}}}
+                {{{deleteChatById}}}
+            </div>
         </div>
         <div class="chat_offer__messages-list">
             {{#each messages}}

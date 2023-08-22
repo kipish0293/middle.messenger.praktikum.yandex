@@ -65,7 +65,6 @@ function checkMessage(inputValue: string, inputNode: HTMLInputElement) {
 
 export function validatorInput(inputNode: HTMLInputElement) {
     const { name: inputName, value: inputValue } = inputNode;
-    console.log(inputNode, inputName, inputValue)
 
     switch (inputName) {
         case "login":

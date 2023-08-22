@@ -49,3 +49,14 @@
   width: 38px;
   cursor: pointer;
 }
+
+.chat-footer__input-offer {
+  width: 100%;
+  position: relative;
+
+  .chat-footer__label {
+    position: absolute;
+    top: -30px;
+    left: 0;
+  }
+}

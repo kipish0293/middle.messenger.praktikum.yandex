@@ -5,7 +5,7 @@ import { ButtonType } from "./types";
 
 export default class Button extends Block {
     constructor(props: ButtonType) {
-        super("div", props);
+        super("button", { ...props, class: "button" });
     }
 
     render() {

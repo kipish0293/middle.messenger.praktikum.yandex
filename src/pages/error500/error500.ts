@@ -1,7 +1,7 @@
 import "./error500.scss";
 import LinkButton from "../../components/linkButton";
 import Block from "../../helpers/block";
-import { changePathName } from "../../utils/changePatrhName";
+import {goApp, PATHS } from "../../utils/routerChange";
 import tmpl from "./error500.tmpl";
 
 class Error500 extends Block {
@@ -19,12 +19,12 @@ const linkButton = new LinkButton({
     events: {
         click: (event: Event): void => {
             event.preventDefault();
-            changePathName("chats");
+            goApp(PATHS.MES);
         },
     },
 });
 
-export default new Error500({
+export default () => new Error500({
     linkButton,
     class: "screen-content-center",
 });
