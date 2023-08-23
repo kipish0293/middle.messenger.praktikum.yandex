@@ -1,3 +1,5 @@
+import Block from "../helpers/block";
+
 type Indexed<T = any> = {
     [key in string]: T;
 };
@@ -103,3 +105,12 @@ export const debounce = (fn: any, ms = 300) => {
         timeoutId = setTimeout(() => fn.apply(this, args), ms);
     };
 };
+
+export function renderPage(query: string = "#app", block: Block) {
+    const root = document.querySelector(query);
+    if (root) {
+        root.appendChild(block.getContent()!);
+    }
+    block.dispatchComponentDidMount();
+    return root;
+}

@@ -15,6 +15,8 @@
 npm run dev - запуск в режиме разработки
 npm run start - запуск в режиме сервера http://localhost:3000
 npm run build - скрипт сборки проекта в итоговую директорию dist
+npm run test - запускает тесты в проекте
+npm run check - запускает 3 скрипта(eslint, stylelint, test)
 
 ## Ссылка на проект Netlify
 https://effortless-kashata-acb2aa.netlify.app
